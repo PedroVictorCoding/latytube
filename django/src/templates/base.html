@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+{% load static %}
+{% load tz %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <!-- SCRIPTs -->
+    <link rel="stylesheet" href="{% static 'bootstrap/css/bootstrap.min.css' %}">
+    <link rel="stylesheet" href="{% static 'css/global.css' %}">
+    <script src="https://code.jquery.com/jquery-3.4.1.js"></script>
+    <script src="{% static 'bootstrap/js/bootstrap.min.js' %}"></script>
+    <!-- End SCRIPTs -->
+
+    {% block title %}
+    <title>Base Title</title>
+    {% endblock title %}
+
+    <!-- Global Style -->
+    <!-- End Global Style-->
+
+</head>
+<body class="bg-white">
+
+<style>
+
+@media (max-width: 599px) { 
+.computer-view{
+         display: none !important; 
+    }
+.mobile-view{
+    display: block !important;
+}
+}
+
+@media (min-width: 599px) { 
+    .computer-view{
+         display: block !important; 
+    }
+    .mobile-view{
+        display: none !important;
+    }      
+}
+
+</style>
+
+
+    {% block navbar %}
+    {% endblock navbar %}
+    
+    {% block content %}
+    {% endblock content %}
+
+
+
+<script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
+<script>window.jQuery || document.write('<script src="/docs/4.4/assets/js/vendor/jquery.slim.min.js"><\/script>')</script>
+      
+</body>
+  
+</html>

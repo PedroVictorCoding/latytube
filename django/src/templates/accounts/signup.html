@@ -1,0 +1,29 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}
+<title>Login - Notatish</title>
+{% endblock title %}
+
+{% block content %}
+<body>
+
+    <div class="container-fluid">
+      <div class="card text-black mb-3" style="margin-top:50px;max-width:80%;margin-left:auto;margin-right:auto">
+        <div class="card-header">Signup</div>
+          <div class="card-body">
+            <form class="form" method="post">
+		            {% csrf_token %}
+		            {{ form.as_p }}
+                <p>By creating an account, you agree to our terms of service and privacy policies
+                  Click <a href="#">here</a> to view our terms</p>
+		            <button style="width:100%" class="btn btn-action" type="submit">Signup</button>
+	          </form>
+	          <p style="margin-bottom:-1px;margin-top:10px;text-align:center">or</p>
+	          <a style="width:100%" class="btn btn-dark" href="{% url 'login' %}">Login</a>
+          </div>
+        </div>
+      </div>
+
+</body>
+{% endblock content %}
