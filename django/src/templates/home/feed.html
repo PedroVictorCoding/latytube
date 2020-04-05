@@ -9,24 +9,8 @@
     
 {% block content %}
 
-<div onload="waveInit()" id="ocean" class="text-center text-black">
+<div class="text-center text-black">
 
-<script>
-    var ocean = document.getElementById("ocean"),
-    waveWidth = 10,
-    waveCount = Math.floor((window.innerWidth - 5)/waveWidth),
-    docFrag = document.createDocumentFragment();
-
-    for(var i = 0; i < waveCount; i++){
-    var wave = document.createElement("div");
-    wave.className += " wave";
-    docFrag.appendChild(wave);
-    wave.style.webkitAnimationDelay = (i/100) + "s";
-    wave.style.left = i * waveWidth + "px";
-    }
-
-    ocean.appendChild(docFrag);
-</script>
 
 <div class="computer-view">
 
@@ -41,7 +25,7 @@
 
                 <div class="wrapper mt-2">
                     <div class="file-upload">
-                    <p style="margin-top: 15px; margin-bottom: auto; position: relative;">Select Video</p>
+                    <p style="margin-top: 0; margin-bottom: auto; position: relative;">Select Video</p>
                       {{ form.videofile }}
                       </div>
                   </div>
@@ -57,10 +41,10 @@
 
                 
             <div class="video-container mb-2">
-                <video style="border-radius: 15px;" id="video" width='405' onclick="play();" muted>
+                <video id="{{ lastvideo.id }}" style="border-radius: 15px;" id="video" width='720' onclick="play();" muted>
                     <source src="{{ MEDIA_URL }}{{ lastvideo.videofile }}" type="video/mp4" />
                 </video>
-                <div class="video-overlay">
+                <div onclick='playvideo("{{ lastvideo.id }}", )' id="video-overlay-{{ lastvideo.id }}" class="video-overlay">
                     <div class="video-overlay video-shadow">
                         <h4 class="text-white" style="position:absolute; bottom: 10px; left: 20px;">{{ lastvideo.title }}</h4>
                         <h5 class="text-white" style="position:absolute; bottom: 11px; right: 20px;">{{ lastvideo.author }}</h5>
@@ -69,26 +53,19 @@
                 </div>
             </div>
                 
+            <script>
+
+                function playvideo(videoId) {
+                    var mediaVideo = $("#" + videoId).get(0);
+                if (mediaVideo.paused) {
+                    mediaVideo.play();
+                } else {
+                    mediaVideo.pause();
+                }
+                }
+            </script>
 
             <style>
-                .video-container { position:relative; }
-                .video-container video {
-                    position:relative;
-                    z-index:0;
-                }
-                .video-overlay {
-                    position:absolute;
-                    
-                }
-                .video-shadow {
-                    width: 405px !important;
-                    height: 720px !important;
-                    left:22px;
-                    right: auto;
-                    bottom: 1px;
-                    background: linear-gradient(180deg, rgba(0, 0, 0, 0) 36.98%, rgba(0, 0, 0, 0.21) 52.08%, #121212 98.44%), url();
-                    border-radius: 15px;
-                }
 
             </style>
             

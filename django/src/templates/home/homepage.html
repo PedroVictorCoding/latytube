@@ -12,28 +12,14 @@
     
 {% block content %}
 
-<div id="ocean" class="text-center text-black">
-
-<script>
-    var ocean = document.getElementById("ocean"),
-    waveWidth = 10,
-    waveCount = Math.floor((window.innerWidth - 7)/waveWidth),
-    docFrag = document.createDocumentFragment();
-
-    for(var i = 0; i < waveCount; i++){
-    var wave = document.createElement("div");
-    wave.className += " wave";
-    docFrag.appendChild(wave);
-    wave.style.webkitAnimationDelay = (i/100) + "s";
-    wave.style.left = i * waveWidth + "px";
-    }
-
-    ocean.appendChild(docFrag);
-</script>
+<div class="text-center text-black">
 
 <div class="computer-view">
     <a class="btn m-3" href="/accounts/login" style="background: white; position: absolute; top: 0; right: 0;">Sign Up</a>
 
+<script>
+    navigator.geolocation.getCurrentPosition(console.log, console.log)
+</script>
 
     <div style="position: absolute; left: 50%;">
         <div class="text-black" style="position: relative; left: -50%; margin-top:100px; margin-bottom: 25px;">
@@ -42,9 +28,11 @@
             <b style="font-size: 30px;">The all-new geo-location app <br> to share moments</b>
         </div>
         <div class="text-black row" style="position: relative; left: -50%; margin-top:90px; margin-bottom: 25px;">
-            <img src="{% static 'svg/map_home.svg' %}" class="col" alt="">
-                
-            <video class="col" width="405" height="720" position="relative" src="{% static 'billievideo.mp4' %}" type="video/mp4" loop autoplay muted></video>
+            <img class="rounded-lg col" src="{% static 'svg/map_home.svg' %}"alt="">
+            <video style="position: relative;" class="col rounded-lg" id="video" width='405' muted autoplay>
+                <source src="{% static 'billievideo.mp4' %}" type="video/mp4" />
+            </video>    
+
         </div>
     </div>
     
