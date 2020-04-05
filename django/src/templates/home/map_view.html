@@ -13,8 +13,12 @@
     </style>
 {% endblock title %}
     
-{% block content %}
 
+{% block ocean %}
+{% endblock ocean %}
+    
+
+{% block content %}
 <div id='map'></div>
 
 <script>
@@ -32,7 +36,7 @@ var map = new mapboxgl.Map({
     zoom: 9 // starting zoom
 });
 
-var url = 'https://wanderdrone.appspot.com/';
+/*var url = 'https://wanderdrone.appspot.com/';
 map.on('load', function() {
     window.setInterval(function() {
         map.getSource('drone').setData(url);
@@ -47,7 +51,7 @@ map.on('load', function() {
         'icon-image': 'rocket-15'
         }
     });
-});
+});*/
 
 
 </script>
