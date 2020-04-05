@@ -1,0 +1,111 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}
+    <title>Latytube</title>
+    <script src="{% static 'js/global.js' %}"></script>
+    
+{% endblock title %}
+    
+{% block content %}
+
+<div onload="waveInit()" id="ocean" class="text-center text-black">
+
+<script>
+    var ocean = document.getElementById("ocean"),
+    waveWidth = 10,
+    waveCount = Math.floor((window.innerWidth - 5)/waveWidth),
+    docFrag = document.createDocumentFragment();
+
+    for(var i = 0; i < waveCount; i++){
+    var wave = document.createElement("div");
+    wave.className += " wave";
+    docFrag.appendChild(wave);
+    wave.style.webkitAnimationDelay = (i/100) + "s";
+    wave.style.left = i * waveWidth + "px";
+    }
+
+    ocean.appendChild(docFrag);
+</script>
+
+<div class="computer-view">
+
+
+    <div style="position: absolute; left: 50%;">
+        <div class="text-black" style="position: relative; left: -50%; margin-top:100px; margin-bottom: 25px;"> 
+            <form enctype="multipart/form-data" class="p-4 rounded-lg bg-white" method="POST">
+                <h2>Upload a Video</h2>
+                {% csrf_token %}
+                <div class="mt-2">{{ form.title }}</div>
+                <div class="mt-2">{{ form.tags }}</div>
+
+                <div class="wrapper mt-2">
+                    <div class="file-upload">
+                    <p style="margin-top: 15px; margin-bottom: auto; position: relative;">Select Video</p>
+                      {{ form.videofile }}
+                      </div>
+                  </div>
+
+
+
+                <input class="btn btn-dark btn-lg btn-block mt-3" type="submit" value="Upload"/>
+            </form>
+
+            <br><br>
+            
+            {% for lastvideo in lastvideos %}
+
+                
+            <div class="video-container mb-2">
+                <video style="border-radius: 15px;" id="video" width='405' onclick="play();" muted>
+                    <source src="{{ MEDIA_URL }}{{ lastvideo.videofile }}" type="video/mp4" />
+                </video>
+                <div class="video-overlay">
+                    <div class="video-overlay video-shadow">
+                        <h4 class="text-white" style="position:absolute; bottom: 10px; left: 20px;">{{ lastvideo.title }}</h4>
+                        <h5 class="text-white" style="position:absolute; bottom: 11px; right: 20px;">{{ lastvideo.author }}</h5>
+                        <i class="fa fa-star" style="position:absolute; top: 20px; right: 18px; color: white; font-size: 45px;" aria-hidden="true"></i>
+                    </div>
+                </div>
+            </div>
+                
+
+            <style>
+                .video-container { position:relative; }
+                .video-container video {
+                    position:relative;
+                    z-index:0;
+                }
+                .video-overlay {
+                    position:absolute;
+                    
+                }
+                .video-shadow {
+                    width: 405px !important;
+                    height: 720px !important;
+                    left:22px;
+                    right: auto;
+                    bottom: 1px;
+                    background: linear-gradient(180deg, rgba(0, 0, 0, 0) 36.98%, rgba(0, 0, 0, 0.21) 52.08%, #121212 98.44%), url();
+                    border-radius: 15px;
+                }
+
+            </style>
+            
+            {% endfor %}
+
+        </div>
+    </div>
+    
+    </div>
+</div>
+
+<script>
+
+</script>
+
+<div class="computer-view" style="position: absolute; left: 50%;">
+
+</div>
+
+{% endblock content %}
