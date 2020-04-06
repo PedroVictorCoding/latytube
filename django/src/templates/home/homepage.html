@@ -15,8 +15,11 @@
 <div class="text-center text-black">
 
 <div class="computer-view">
+    {% if not user.is_authenticated %}
     <a class="btn m-3" href="/accounts/login" style="background: white; position: absolute; top: 0; right: 0;">Sign Up</a>
-
+    {% else %}
+    
+    {% endif %}
 <script>
     navigator.geolocation.getCurrentPosition(console.log, console.log)
 </script>
@@ -29,7 +32,7 @@
         </div>
         <div class="text-black row" style="position: relative; left: -50%; margin-top:90px; margin-bottom: 25px;">
             <img class="rounded-lg col" src="{% static 'svg/map_home.svg' %}"alt="">
-            <video style="position: relative;" class="col rounded-lg" id="video" width='405' muted autoplay>
+            <video style="position: relative;" class="col rounded-lg" id="video" width='405' muted autoplay loop>
                 <source src="{% static 'billievideo.mp4' %}" type="video/mp4" />
             </video>    
 
