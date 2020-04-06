@@ -8,15 +8,16 @@ class Video(models.Model):
     tags = models.CharField(max_length=50, blank=True)
     
     #Generated
-    location = models.CharField(max_length=500, blank=False)
+    longitude = models.CharField(max_length=500, blank=False)
+    latitude = models.CharField(max_length=500, blank=False)
     like_count = models.IntegerField(null=True, blank=True)
     view_count = models.IntegerField(null=True, blank=True)
-    thumbnail = models.ImageField()
+    thumbnail = models.ImageField(upload_to="videos/%Y/%m/%d/")
     author = models.CharField(max_length=150)
     date_of_upload = models.DateField(auto_now_add=True)
 
     def __str__(self):
-        return self.title + ": " + str(self.videofile)
+        return self.title + ": " + str(self.videofile) + ": " + str(self.id)
 
 
 def get_client_ip(request):

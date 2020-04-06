@@ -1,0 +1,18 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}
+    <title>{{ lastvideo.title }} @ {{ lastvideo.author }}</title>
+    <script src="{% static 'js/global.js' %}"></script>
+    
+{% endblock title %}
+    
+{% block content %}
+    
+    <div style="position: absolute; left: 50%;">
+        <video id="{{ lastvideo.id }}" style="margin-top: 20px; position:relative; left:-50%; border-radius: 15px; height: 95vh;" id="video" onclick="play();" autoplay loop controls>
+            <source src="{{ MEDIA_URL }}{{ lastvideo.videofile }}" type="video/mp4" />
+        </video>
+    </div>
+
+{% endblock content %} 

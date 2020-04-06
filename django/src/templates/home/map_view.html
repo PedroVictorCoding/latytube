@@ -7,10 +7,24 @@
     <meta name='viewport' content='initial-scale=1,maximum-scale=1,user-scalable=no' />
     <script src='https://api.tiles.mapbox.com/mapbox-gl-js/v0.52.0/mapbox-gl.js'></script>
     <link href='https://api.tiles.mapbox.com/mapbox-gl-js/v0.52.0/mapbox-gl.css' rel='stylesheet' />
+    
+    {% for map_video in map_videos %}
     <style>
         body { margin:0; padding:0; }
         #map { position:absolute; top:0; bottom:0; width:100%; }
+
+        .mapboxgl-popup {
+            max-width: 200px;
+            }
+
+        .mapboxgl-popup-content {
+        text-align: center;
+        font-family: 'Open Sans', sans-serif;
+        }
+
+
     </style>
+    {% endfor %}
 {% endblock title %}
     
 
@@ -20,6 +34,20 @@
 
 {% block content %}
 <div id='map'></div>
+
+
+
+    <style>
+            .marker {
+                background-size: cover;
+                width: 16.88vh;
+                height: 30vh;
+                margin-top: -10vh;
+                border-radius: 10px;
+                cursor: pointer;
+            }
+            
+    </style>
 
 <script>
 
@@ -32,28 +60,66 @@ mapboxgl.accessToken = MapToken;
 var map = new mapboxgl.Map({
     container: 'map', // container id
     style: 'mapbox://styles/pedrolavictor/ck8m6k9e30nvp1ilct2to4ac2', // stylesheet location
-    center: [-74.50, 40], // starting position [lng, lat]
-    zoom: 9 // starting zoom
+    center: [-96, 37.8], // starting position [lng, lat]
+    zoom: 2 // starting zoom
 });
 
-/*var url = 'https://wanderdrone.appspot.com/';
-map.on('load', function() {
-    window.setInterval(function() {
-        map.getSource('drone').setData(url);
-    }, 2000);
+
+
+
+var geojson = {
+    type: 'FeatureCollection',
+    features: [
+       {% for map_video in map_videos %} 
+        {
+            type: 'Feature',
+            geometry: {
+            type: 'Point',
+            coordinates: [{{ map_video.longitude }}, {{ map_video.latitude }}]
+            },
+            properties: {
+            title: '{{ map_video.title }}',
+            author: '{{ map_video.author }}',
+            videofile: '{{ map_video.videofile }}',
+            thumbnailurl: '{{ map_video.thumbnail.url }}',
+            id: '{{ map_video.id }}',
+            }
+        },                
+        {% endfor %}
+    ]
+};
+
+        geojson.features.forEach(function(marker) {
+            // create a HTML element for each feature
+            var el = document.createElement('a');
+            el.style = "background-image: url(" + marker.properties.thumbnailurl + ");"
+            el.href = "/feed/v/" + marker.properties.id;
+            el.className = 'marker';
+
+
+            var video_shadow = document.createElement("div");
+            video_shadow.style = "width:100%; height:100%; border-radius:9px; background: linear-gradient(180deg, rgba(0, 0, 0, 0) 36.98%, rgba(0, 0, 0, 0.21) 52.08%, #121212 98.44%), url();"
+            el.appendChild(video_shadow);
+
+            var video_title = document.createElement("p");
+            video_title.innerHTML = marker.properties.title;
+            video_title.style = "bottom:-13px; left:5px; position:absolute; color:#fff;"
+            el.appendChild(video_title);
+
+            var video_author = document.createElement("p");
+            video_author.innerHTML = marker.properties.author;
+            video_author.style = "bottom:-13px; right:5px; position:absolute; color:#fff;"
+            el.appendChild(video_author);
+        
     
-    map.addSource('drone', { type: 'geojson', data: url });
-    map.addLayer({
-        'id': 'drone',
-        'type': 'symbol',
-        'source': 'drone',
-        'layout': {
-        'icon-image': 'rocket-15'
-        }
-    });
-});*/
 
+            // make a marker for each feature and add to the map
+            new mapboxgl.Marker(el)
+            .setLngLat(marker.geometry.coordinates)
+            .addTo(map);
+        });
 
-</script>
+    </script>
 
+        
 {% endblock content %}

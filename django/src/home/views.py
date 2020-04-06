@@ -3,8 +3,6 @@ from .models import Video
 from .forms import VideoForm
 
 def homepage(request):
-    consumer_ip = get_client_ip(request)
-    print("Consumer IP: " + consumer_ip)
     return render(request, 'home/homepage.html')
 
 
@@ -17,9 +15,10 @@ def get_client_ip(request):
     return ip
 
 
-
 def map_view(request):
-    return render(request, 'home/map_view.html')
+    map_videos = Video.objects.all()
+    args = {'map_videos': map_videos, }
+    return render(request, 'home/map_view.html', args)
 
 
 
@@ -34,12 +33,15 @@ def showvideo(request):
         #video_upload.location = LonlatIPVal
         # TODO: Generate JSON inside media folder
         form.save()
-
     
-    context= {
+    args= {
         'lastvideos': lastvideos,
         'form': form
               }
-    
-      
-    return render(request, 'home/feed.html', context)
+
+    return render(request, 'home/feed.html', args)
+
+def showfullvideo(request, pk=None):
+    lastvideo = Video.objects.get(id=pk)
+    args = {'lastvideo': lastvideo}
+    return render(request, 'home/fullvideo.html', args)
