@@ -40,6 +40,8 @@ INSTALLED_APPS = [
 
     'accounts',
     'home',
+    'functions',
+    'api',
 
     'rest_framework'
 ]

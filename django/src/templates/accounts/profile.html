@@ -1,0 +1,68 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}
+    <title>Profile</title>
+{% endblock title %}
+    
+{% block content %}
+
+
+
+
+<div style="position: absolute; left: 50%;">
+
+<div class="text-black text-center" style="position: relative; left: -50%;margin-bottom: 25px;"> 
+    
+    <div class="mb-5 mt-4 p-4 rounded-lg bg-white">
+        <h3>
+            Username: {{ user }} <br>
+            Email: {{ user.email }} <br>
+            <div class="row">
+                <div class="col">Followers: </div>
+                <div class="col">Following: </div>
+            </div>
+
+        </h3>
+    </div>
+
+    {% for lastvideo in videos %}          
+    <div class="video-container mb-2">
+        <video id="{{ lastvideo.id }}" style="border-radius: 15px;" id="video" width='720' onclick="play();" muted>
+            <source src="{{ MEDIA_URL }}{{ lastvideo.videofile }}" type="video/mp4" />
+        </video>
+        <div onclick='playvideo("{{ lastvideo.id }}")' id="video-overlay-{{ lastvideo.id }}" class="video-overlay">
+            <div class="video-overlay video-shadow">
+                <h4 class="text-white" style="position:absolute; bottom: 10px; left: 20px;">{{ lastvideo.title }}</h4>
+                <h5 class="text-white" style="position:absolute; bottom: 11px; right: 20px;">{{ lastvideo.author }}</h5>
+                <i class="fa fa-star" style="position:absolute; top: 20px; right: 18px; color: white; font-size: 45px;" aria-hidden="true"></i>
+            </div>
+        </div>
+    </div>
+        
+    <script>
+
+        function playvideo(videoId) {
+            var mediaVideo = $("#" + videoId).get(0);
+        if (mediaVideo.paused) {
+            mediaVideo.play();
+        } else {
+            mediaVideo.pause();
+        }
+        }
+    </script>
+
+    <style>
+
+    </style>
+    
+    {% endfor %}
+
+</div>
+
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+<script>window.jQuery || document.write('<script src="/docs/4.3/assets/js/vendor/jquery-slim.min.js"><\/script>')</script><script src="{% static 'js/bootstrap.bundle.min.js' %}" integrity="sha384-xrRywqdh3PHs8keKZN+8zzc5TX0GRTLCcmivcbNJWm2rs5C8PRhcEn3czEjhAO9o" crossorigin="anonymous"></script>
+
+
+
+{% endblock content %}
