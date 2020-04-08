@@ -5,9 +5,11 @@ from django.conf.urls.static import static
 from django.contrib.staticfiles.urls import staticfiles_urlpatterns
 from django.contrib.auth.views import LoginView, LogoutView, PasswordResetView, PasswordResetDoneView
 from django.contrib.auth.views import PasswordResetConfirmView, PasswordResetCompleteView
-from accounts.views import signup
+from accounts.views import signup, profile2
 
 urlpatterns = [
     path('login/', LoginView.as_view(template_name="accounts/login.html"), name="login"),
     path('signup/', signup, name="signup"),
+    path('profile/', profile2, name="profile"),
+    path('profile/<str:pk>/', profile2, name="profile"),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

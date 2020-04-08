@@ -40,8 +40,8 @@
     <style>
             .marker {
                 background-size: cover;
-                width: 16.88vh;
-                height: 30vh;
+                width: 22.50vh;
+                height: 40vh;
                 margin-top: -10vh;
                 border-radius: 10px;
                 cursor: pointer;
@@ -80,7 +80,7 @@ var geojson = {
             properties: {
             title: '{{ map_video.title }}',
             author: '{{ map_video.author }}',
-            videofile: '{{ map_video.videofile }}',
+            videofile: '{{ map_video.videofile.url }}',
             thumbnailurl: '{{ map_video.thumbnail.url }}',
             id: '{{ map_video.id }}',
             }
@@ -89,6 +89,53 @@ var geojson = {
     ]
 };
 
+        geojson.features.forEach(function(marker) {
+            // create a HTML element for each feature
+            var el = document.createElement('div');
+            el.className = "video-container"
+            el.setAttribute("onclick","playvideo(" + marker.properties.id + ");");
+
+            var video_v = document.createElement('video');
+            video_v.id = marker.properties.id;
+            video_v.style = ""
+            video_v.src = marker.properties.videofile;
+            video_v.href = "/feed/v/" + marker.properties.id;
+            video_v.className = 'marker';
+            el.appendChild(video_v);
+
+            var video_shadow = document.createElement("div");
+            video_shadow.className = "video-overlay"
+            video_shadow.style = "bottom:0; left:0; width:100%; height:100%; border-radius:9px; background: linear-gradient(180deg, rgba(0, 0, 0, 0) 36.98%, rgba(0, 0, 0, 0.21) 52.08%, #121212 98.44%);"
+            el.appendChild(video_shadow);
+
+            var video_title = document.createElement("p");
+            video_title.innerHTML = marker.properties.title;
+            video_title.style = "position: absolute; bottom:-13px; left:5px; position:absolute; color:#fff;"
+            el.appendChild(video_title);
+
+            var video_author = document.createElement("p");
+            video_author.innerHTML = marker.properties.author;
+            video_author.style = "bottom:-13px; right:5px; position:absolute; color:#fff;"
+            el.appendChild(video_author);
+
+
+            
+            new mapboxgl.Marker(el)
+            .setLngLat(marker.geometry.coordinates)
+            .addTo(map);
+
+        });
+
+                function playvideo(videoId) {
+                    var mediaVideo = $("#" + videoId).get(0);
+                if (mediaVideo.paused) {
+                    mediaVideo.play();
+                } else {
+                    mediaVideo.pause();
+                }
+                }
+
+/*
         geojson.features.forEach(function(marker) {
             // create a HTML element for each feature
             var el = document.createElement('a');
@@ -118,6 +165,7 @@ var geojson = {
             .setLngLat(marker.geometry.coordinates)
             .addTo(map);
         });
+        */
 
     </script>
 
