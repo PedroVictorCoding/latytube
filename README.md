@@ -1,1 +1,6 @@
 # latytube
+
+## Philosophy
+
+## Features
+
