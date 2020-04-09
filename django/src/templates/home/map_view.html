@@ -40,13 +40,49 @@
     <style>
             .marker {
                 background-size: cover;
-                width: 22.50vh;
-                height: 40vh;
-                margin-top: -10vh;
+                margin-top: -15vh;
                 border-radius: 10px;
                 cursor: pointer;
+                width: 16.88vh;
+                height: 30vh;
+                z-index: 1;
             }
-            
+            .marker:hover {
+                width: 45vh;
+                height: 80vh;
+                z-index: 2;
+                box-shadow: 0px 0px 50px #000000;
+                animation-name: zoomin;
+                animation-duration: 1s;
+            }
+
+            @keyframes zoomin {  
+                0%   {width: 16.88vh; height: 30vh;}
+                100% {width: 45vh; height: 80vh;}
+            }
+
+            #custom-seekbar {  
+                cursor: pointer;
+                height: 5px;
+                position:absolute;
+                top:0;
+                width:90%;
+                margin-top: 10px;
+            }
+            #custom-seekbar span{
+                position: absolute;
+                top: 0;
+                height: 5px;
+                width: 0px;
+                border-radius:30px;
+                box-shadow: 0px 0px 50px #000000;
+                margin-left: 5%;
+                margin-right: 5%;
+            }
+
+            /* following rule is for hiding Stack Overflow's console  */
+            .as-console-wrapper{ display: none !important;}
+
     </style>
 
 <script>
@@ -60,8 +96,10 @@ mapboxgl.accessToken = MapToken;
 var map = new mapboxgl.Map({
     container: 'map', // container id
     style: 'mapbox://styles/pedrolavictor/ck8m6k9e30nvp1ilct2to4ac2', // stylesheet location
-    center: [-96, 37.8], // starting position [lng, lat]
-    zoom: 2 // starting zoom
+    center: [-47, 9], // starting position [lng, lat]
+    zoom: 3, // starting zoom
+    maxZoom: 4,
+    minZoom: 3,
 });
 
 
@@ -92,21 +130,31 @@ var geojson = {
         geojson.features.forEach(function(marker) {
             // create a HTML element for each feature
             var el = document.createElement('div');
-            el.className = "video-container"
+            el.className = "video-container marker"
             el.setAttribute("onclick","playvideo(" + marker.properties.id + ");");
 
             var video_v = document.createElement('video');
             video_v.id = marker.properties.id;
-            video_v.style = ""
+            video_v.style = "width:100%; height:100%; border-radius:10px;"
             video_v.src = marker.properties.videofile;
             video_v.href = "/feed/v/" + marker.properties.id;
-            video_v.className = 'marker';
+            video_v.loop = "true";
+            video_v.className = '';
             el.appendChild(video_v);
 
             var video_shadow = document.createElement("div");
             video_shadow.className = "video-overlay"
-            video_shadow.style = "bottom:0; left:0; width:100%; height:100%; border-radius:9px; background: linear-gradient(180deg, rgba(0, 0, 0, 0) 36.98%, rgba(0, 0, 0, 0.21) 52.08%, #121212 98.44%);"
+            video_shadow.style = "bottom:0; left:0; width:100%; height:100%; border-radius:10px; background: linear-gradient(180deg, rgba(0, 0, 0, 0) 36.98%, rgba(0, 0, 0, 0.21) 52.08%, #121212 98.44%);"
             el.appendChild(video_shadow);
+
+            video_progress_bar_div = document.createElement('div')
+            video_progress_bar_div.id = "custom-seekbar"
+            video_progress_bar_div.style = ""
+            el.appendChild(video_progress_bar_div)
+
+            video_progress_bar = document.createElement("span");
+            video_progress_bar.id = "progressbar" + marker.properties.id;
+            video_progress_bar_div.appendChild(video_progress_bar)
 
             var video_title = document.createElement("p");
             video_title.innerHTML = marker.properties.title;
@@ -125,48 +173,146 @@ var geojson = {
             .addTo(map);
 
         });
+           
 
-                function playvideo(videoId) {
-                    var mediaVideo = $("#" + videoId).get(0);
+            function playvideo(videoId) {
+                var mediaVideo = $("#" + videoId).get(0);
                 if (mediaVideo.paused) {
                     mediaVideo.play();
+                    mediaVideo.ontimeupdate = function(){
+                    var percentage = ( mediaVideo.currentTime / mediaVideo.duration ) * 100;
+                        $("#progressbar" + videoId).css("width", percentage+"%");
+                    };
+
+                    function getElementBG(elm) {
+                        var bg	= getComputedStyle(elm).backgroundColor;
+                        bg	= bg.match(/\((.*)\)/)[1];
+                        bg	= bg.split(",");
+                        for (var i = 0; i < bg.length; i++) {bg[i] = parseInt(bg[i], 10);}
+                        if (bg.length > 3) { bg.pop(); }
+                        return bg;}
+
+                        function random() {
+                            if (arguments.length > 2) {return 0;}
+                            switch (arguments.length) {
+                            case 0:
+                                return Math.random();
+                            case 1:
+                                return Math.round(Math.random() * arguments[0]);
+                            case 2:
+                                var min = arguments[0];
+                                var max = arguments[1];
+                                return Math.round(Math.random() * (max - min) + min);
+                            }
+                        }
+                        
+                        function generateRGB(min, max) {
+                            var min		= min || 0;
+                            var max		= min || 255;
+                            var color	= [];
+                            for (var i = 0; i < 3; i++) {
+                            var num = random(min, max);
+                            color.push(num);
+                            }
+                            return color;
+                        }
+                        
+                        function calculateDistance(colorArray1, colorArray2) {
+                            var distance = [];
+                            for (var i = 0; i < colorArray1.length; i++) {
+                            distance.push(Math.abs(colorArray1[i] - colorArray2[i]));
+                            }
+                            return distance;
+                        }
+                        
+                        function calculateIncrement(distanceArray, fps, duration) {
+                            var fps			= fps || 30;
+                            var duration	= duration || 1;
+                            var increment	= [];
+                            for (var i = 0; i < distanceArray.length; i++) {
+                            var incr = Math.abs(Math.floor(distanceArray[i] / (fps * duration)));
+                            if (incr == 0) {
+                                incr = 1;
+                        }
+                        increment.push(incr);
+                        }
+                        return increment;
+                        }
+                        
+                        function rgb2hex(colorArray) {
+                        var color = [];
+                        for (var i = 0; i < colorArray.length; i++) {
+                        var hex = colorArray[i].toString(16);
+                        if (hex.length < 2) { hex = "0" + hex; }
+                        color.push(hex);
+                        }
+                        return "#" + color.join("");
+                        }
+                        
+                        var fps				= 30;
+                        var duration		= 1;
+                        var transElement	= document.getElementById("progressbar" + videoId);
+                        var currentColor	= getElementBG(transElement);
+                        var transHandler	= null;
+                        
+                        startTransition();
+                        
+                        function startTransition() {
+                        clearInterval(transHandler);
+                        
+                        targetColor	= generateRGB();
+                        distance	= calculateDistance(currentColor, targetColor);
+                        increment	= calculateIncrement(distance, fps, duration);
+                        
+                        transHandler = setInterval(function() {
+                        transition();
+                        }, 1000/fps);
+                        }
+                        
+                        function transition() {
+                        if (currentColor[0] > targetColor[0]) {
+                        currentColor[0] -= increment[0];
+                        if (currentColor[0] <= targetColor[0]) {
+                            increment[0] = 0;
+                        }
+                        } else {
+                        currentColor[0] += increment[0];
+                        if (currentColor[0] >= targetColor[0]) {
+                            increment[0] = 0;
+                        }
+                        }
+                        
+                        if (currentColor[1] > targetColor[1]) {
+                        currentColor[1] -= increment[1];
+                        if (currentColor[1] <= targetColor[1]) {
+                            increment[1] = 0;
+                        }
+                        } else {
+                        currentColor[1] += increment[1];
+                        if (currentColor[1] >= targetColor[1]) {
+                            increment[1] = 0;
+                        }
+                        }
+                        if (currentColor[2] > targetColor[2]) {
+                        currentColor[2] -= increment[2];
+                        if (currentColor[2] <= targetColor[2]) {
+                            increment[2] = 0;
+                        }
+                        } else {
+                        currentColor[2] += increment[2];
+                        if (currentColor[2] >= targetColor[2]) {
+                            increment[2] = 0;
+                        }
+                        }
+                        
+                        transElement.style.backgroundColor = rgb2hex(currentColor);
+                        
+                        if (increment[0] == 0 && increment[1] == 0 && increment[2] == 0) {
+                        startTransition();}}
                 } else {
                     mediaVideo.pause();
                 }
-                }
-
-/*
-        geojson.features.forEach(function(marker) {
-            // create a HTML element for each feature
-            var el = document.createElement('a');
-            el.style = "background-image: url(" + marker.properties.thumbnailurl + ");"
-            el.href = "/feed/v/" + marker.properties.id;
-            el.className = 'marker';
-
-
-            var video_shadow = document.createElement("div");
-            video_shadow.style = "width:100%; height:100%; border-radius:9px; background: linear-gradient(180deg, rgba(0, 0, 0, 0) 36.98%, rgba(0, 0, 0, 0.21) 52.08%, #121212 98.44%), url();"
-            el.appendChild(video_shadow);
-
-            var video_title = document.createElement("p");
-            video_title.innerHTML = marker.properties.title;
-            video_title.style = "bottom:-13px; left:5px; position:absolute; color:#fff;"
-            el.appendChild(video_title);
-
-            var video_author = document.createElement("p");
-            video_author.innerHTML = marker.properties.author;
-            video_author.style = "bottom:-13px; right:5px; position:absolute; color:#fff;"
-            el.appendChild(video_author);
-        
-    
-
-            // make a marker for each feature and add to the map
-            new mapboxgl.Marker(el)
-            .setLngLat(marker.geometry.coordinates)
-            .addTo(map);
-        });
-        */
-
+            }
     </script>
 
         

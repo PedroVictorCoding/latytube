@@ -6,7 +6,7 @@ import uuid
 def generated_filename(instance, filename):
     extension = filename.split('.')[-1]
     generated = uuid.uuid4()
-    return '{}{}.{}'.format('videos/',str(generated), extension)
+    return '{}{}.{}'.format('videos/', str(generated), extension)
 
 
 
