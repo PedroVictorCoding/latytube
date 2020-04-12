@@ -1,7 +1,6 @@
 from django.shortcuts import render
 from .models import Video
 from .forms import VideoForm
-import cv2
 import numpy as np
 
 def homepage(request):

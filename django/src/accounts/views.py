@@ -13,6 +13,7 @@ from django.core.mail import send_mail
 from accounts.forms import SignupForm, ProfileForm
 from accounts.models import UserProfile
 from home.models import Video
+from accounts.models import Account
 
 
 def signup(request):
@@ -40,7 +41,7 @@ def profile(request, pk=None):
 
 def profile2(request, pk=None):
     if pk:
-        user = User.objects.get(pk=pk)
+        user = Account.objects.get(pk=pk)
         print("Other user")
     else:
         user = request.user

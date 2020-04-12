@@ -98,7 +98,7 @@ var map = new mapboxgl.Map({
     style: 'mapbox://styles/pedrolavictor/ck8m6k9e30nvp1ilct2to4ac2', // stylesheet location
     center: [-47, 9], // starting position [lng, lat]
     zoom: 3, // starting zoom
-    maxZoom: 4,
+    maxZoom: 6,
     minZoom: 3,
 });
 
@@ -117,7 +117,7 @@ var geojson = {
             },
             properties: {
             title: '{{ map_video.title }}',
-            author: '{{ map_video.author }}',
+            author: '{{ map_video.author.username }}',
             videofile: '{{ map_video.videofile.url }}',
             thumbnailurl: '{{ map_video.thumbnail.url }}',
             id: '{{ map_video.id }}',
