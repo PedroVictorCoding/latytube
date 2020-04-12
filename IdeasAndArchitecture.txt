@@ -1,0 +1,35 @@
+Latytube:
+
+    Achievements:
+        Complete your Profile:
+            Add Picture, Bio, Display Name:
+                XP Given: 5xp
+
+        Upload First Video:
+            1 Video:
+                XP Given: 10xp
+
+        Like One Video:
+            Like First Video:
+                XP Given: 5xp
+
+        Comment in One Video:
+            Comment First Video:
+                XP Given: 5xp
+
+        Posting Streaks:
+            Posting Everyday for One Month:
+                XP Given: 100xp
+
+        Share with Friends:
+            5 Friends:
+                XP Given: 25xp
+
+        Talk with Friends in the Chat:
+            3 Different Friends:
+                XP Given: 15xp
+
+        Post Videos in Different Countries:
+            2 Different Countries:
+                XP Given: 1000xp
+        

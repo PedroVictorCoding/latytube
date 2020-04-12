@@ -1,5 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import User
+from accounts.models import Account
 import uuid
 
 
@@ -21,7 +22,7 @@ class Video(models.Model):
     latitude        = models.CharField(max_length=500, blank=False)
     like_count      = models.IntegerField(null=True, blank=True)
     view_count      = models.IntegerField(null=True, blank=True)
-    author          = models.ForeignKey(User, on_delete=models.CASCADE)
+    author          = models.ForeignKey(Account, on_delete=models.CASCADE)
     date_of_upload  = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):

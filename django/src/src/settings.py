@@ -43,8 +43,20 @@ INSTALLED_APPS = [
     'functions',
     'api',
 
-    'rest_framework'
+    'rest_framework',
+    'rest_framework.authtoken',
 ]
+
+
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': [
+        'rest_framework.authentication.TokenAuthentication',
+    ],
+    'DEFAULT_PERMISSIONS_CLASSES': [
+        'rest_framework.permissions.IsAuthenticated',
+    ]
+}
+
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -76,6 +88,8 @@ TEMPLATES = [
         },
     },
 ]
+
+AUTH_USER_MODEL = 'accounts.Account'
 
 WSGI_APPLICATION = 'src.wsgi.application'
 
