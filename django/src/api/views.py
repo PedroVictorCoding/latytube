@@ -21,7 +21,7 @@ class VideoViewSet(viewsets.ModelViewSet):
     serializer_class = RegistrationSerializer'''
 
 
-@api_view(['POST', ])
+@api_view(['POST',])
 def registration_view(request):
     
     if request.method == 'POST':
