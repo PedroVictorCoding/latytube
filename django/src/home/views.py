@@ -18,7 +18,19 @@ def get_client_ip(request):
 
 def map_view(request):
     map_videos = Video.objects.all()
-    args = {'map_videos': map_videos}
+    form= VideoForm(request.POST or None, request.FILES or None)
+    if form.is_valid():
+        video_upload = form.save(commit=False)
+        title = form.cleaned_data['title']
+        tags = form.cleaned_data['tags']
+        video_upload.author = request.user
+        video_upload.like_count = 0
+        video_upload.view_count = 0
+        #video_upload.location = LonlatIPVal
+        # TODO: Generate JSON inside media folder
+        form.save()
+        
+    args = {'map_videos': map_videos, 'form': form}
     return render(request, 'home/map_view.html', args)
 
 

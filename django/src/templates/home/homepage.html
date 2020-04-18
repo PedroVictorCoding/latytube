@@ -9,28 +9,29 @@
     <title>Latytube</title>
     
 {% endblock title %}
-    
+
+
 {% block content %}
+
 
 <div class="text-center text-black">
 
-<div class="computer-view">
+<div class="computer-view" style="margin-top: -30vh;">
     {% if not user.is_authenticated %}
     <a class="btn m-3" href="/accounts/login" style="background: white; position: absolute; top: 0; right: 0;">Sign Up</a>
     {% else %}
     
     {% endif %}
-<script>
-    //navigator.geolocation.getCurrentPosition(console.log, console.log)
-</script>
 
-    <div style="position: absolute; left: 50%;">
-        <div class="text-black" style="position: relative; left: -50%; margin-top:100px; margin-bottom: 25px;">
-            <b style="font-size: 70px;">Latytube</b>
-            <br>
-            <b style="font-size: 30px;">The all-new geo-location app <br> to share moments</b>
-        </div>
-        <div class="text-black row" style="position: relative; left: -50%; margin-top:90px; margin-bottom: 25px;">
+
+
+
+
+    <div style="position: absolute; left: 50%; margin-top:-10vh">
+        <h1 style="color: white; position: relative; left: -50%; margin-bottom: 15vh; margin-top: 5vh;">Latytube
+        <p style="font-size: 30px; margin-top: 20px;">The All New Geolocation Social Media To share moments</p>
+        </h1>
+        <div class="text-black row" style="position: relative; left: -50%; margin-bottom: 25px;">
             <img class="rounded-lg col" src="{% static 'svg/map_home.svg' %}" alt="">
             <video style="position: relative;" class="col rounded-lg" id="video" width='405' muted autoplay loop>
                 <source src="{% static 'billievideo.mp4' %}" type="video/mp4" />

@@ -42,8 +42,9 @@ INSTALLED_APPS = [
     'home',
     'functions',
     'api',
+    'chat',
 
-    'corsheaders',
+    'channels',
     'rest_framework',
     'rest_framework.authtoken',
 ]
@@ -95,7 +96,15 @@ TEMPLATES = [
 AUTH_USER_MODEL = 'accounts.Account'
 
 WSGI_APPLICATION = 'src.wsgi.application'
-
+ASGI_APPLICATION = 'src.routing.application'
+CHANNEL_LAYERS = {
+    'default': {
+        'BACKEND': 'channels_redis.core.RedisChannelLayer',
+        'CONFIG': {
+            "hosts": [('127.0.0.1', 6379)],
+        },
+    },
+}
 
 # Database
 # https://docs.djangoproject.com/en/3.0/ref/settings/#databases
