@@ -8,7 +8,7 @@ from home.models import Video
 class VideoForm(forms.ModelForm):
     title = forms.CharField(required=True, label="", widget=forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Enter Title'}))
     tags = forms.CharField(required=False, label="", widget=forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Enter Tags'}))
-    videofile = forms.FileField(required=True, label="", widget=forms.FileInput(attrs={'id': 'upload-btn', 'class': 'file-upload', 'type': 'file'}))
+    videofile = forms.FileField(required=True, label="", widget=forms.FileInput(attrs={'id': 'videofileinput', 'class': 'file-upload', 'type': 'file'}))
     
     class Meta:
         model= Video
