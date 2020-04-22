@@ -27,5 +27,6 @@ urlpatterns = [
     path('accounts/', include('accounts.urls')),
     path('f/', include('functions.urls')),
     path('api/', include('api.urls')),
-    path('chat/', include('chat.urls')),
+    path('badges/', include('pinax.badges.urls', namespace='pinax_badges')),
+    path('payments/', include('pinax.stripe.urls')),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

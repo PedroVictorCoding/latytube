@@ -5,7 +5,6 @@ from django.conf import settings
 from django.dispatch import receiver
 from rest_framework.authtoken.models import Token
 
-
 class MyAccountManager(BaseUserManager):
     def create_user(self, email, username, password=None):
         if not email:
@@ -18,7 +17,6 @@ class MyAccountManager(BaseUserManager):
             username = username,
             email = self.normalize_email(email),
         )
-
         user.set_password(password)
         user.save(using=self._db)
         return user

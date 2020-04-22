@@ -14,6 +14,7 @@ from accounts.forms import SignupForm, ProfileForm
 from accounts.models import UserProfile
 from home.models import Video
 from accounts.models import Account
+from pinax.stripe.actions import customers
 
 
 def signup(request):
@@ -25,6 +26,8 @@ def signup(request):
                                     password=form.cleaned_data['password1'],
                                     )
             login(request, new_user)
+            userinfo = Account.objects.get(username=form.cleaned_data['username'])
+            customers.create(user=userinfo)
             return HttpResponseRedirect('/')
     else:
         form = SignupForm()

@@ -9,5 +9,6 @@ from .views import delete_video
 
 
 urlpatterns = [
+    # These urls should be pingged on button click
     path('delete/v/<int:video_id>', delete_video, name="delete_video"),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

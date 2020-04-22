@@ -1,5 +1,8 @@
 {% extends 'base.html' %}
 {% load static %}
+{% load pinax_points_tags %}
+    
+
 
 {% block title %}
     <title>Profile</title>
@@ -10,11 +13,11 @@
 
 
 
-<div style="position: absolute; left: 50%;">
+<div style="position: absolute; margin-top:10vh">
 
-<div class="text-black text-center" style="position: relative; left: -50%;margin-bottom: 25px;"> 
+<div class="text-black text-center" style="margin-bottom: 25px;"> 
     
-    <div class="mb-5 mt-4 p-4 rounded-lg bg-white">
+    <div class=" rounded-lg bg-white">
         <h3>
             Username: {{ user }} <br>
             Email: {{ user.email }} <br>
@@ -22,6 +25,8 @@
                 <div class="col">Followers: </div>
                 <div class="col">Following: </div>
             </div>
+                {% points_for_object user as points %}
+    <div class="user-points">{{ points }}</div>
 
         </h3>
     </div>
@@ -32,9 +37,9 @@
             <source src="{{ MEDIA_URL }}{{ lastvideo.videofile }}" type="video/mp4" />
         </video>
         <div onclick='playvideo("{{ lastvideo.id }}")' id="video-overlay-{{ lastvideo.id }}" class="video-overlay">
-            <div class="video-overlay video-shadow">
+            <div class="video-overlay video-shadow" style="margin-left:32px; margin-bottom: 8px">
                 <h4 class="text-white" style="position:absolute; bottom: 10px; left: 20px;">{{ lastvideo.title }}</h4>
-                <h5 class="text-white" style="position:absolute; bottom: 11px; right: 20px;">{{ lastvideo.author }}</h5>
+                <h5 class="text-white" style="position:absolute; bottom: 11px; right: 20px;">{{ lastvideo.author.username }}</h5>
                 <i class="fa fa-star" style="position:absolute; top: 20px; right: 18px; color: white; font-size: 45px;" aria-hidden="true"></i>
             </div>
         </div>
@@ -51,13 +56,10 @@
         }
         }
     </script>
-
-    <style>
-
-    </style>
     
     {% endfor %}
 
+</div>
 </div>
 
 <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>

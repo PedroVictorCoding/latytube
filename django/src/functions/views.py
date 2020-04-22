@@ -12,3 +12,9 @@ def delete_video(request, video_id):
     args = {'title': 'Video Deleted',}
     return render(request, 'functions/standard_function.html', args)
 
+
+
+## Achievements Functions
+
+def share_link(request, user_id):
+    pass

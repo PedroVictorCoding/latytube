@@ -37,17 +37,35 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'django.contrib.sites',
 
     'accounts',
     'home',
     'functions',
     'api',
-    'chat',
+    'achievements',
 
-    'channels',
+
+    'pinax.badges',
+    'pinax.stripe',
+    'pinax.points',
     'rest_framework',
     'rest_framework.authtoken',
 ]
+
+### PINAX INFORMATION ###
+
+## Stripe
+SITE_ID = 1
+PINAX_STRIPE_PUBLIC_KEY = os.environ.get("STRIPE_PUBLIC_KEY", "pk_test_cATiC4SlofkYX7iaQNY6syym001LEhLsHK")
+PINAX_STRIPE_SECRET_KEY = os.environ.get("STRIPE_SECRET_KEY", "sk_test_ifyNfySknPGCDa7fx1KB0TMB00pOz5mMyS")
+
+PINAX_STRIPE_DEFAULT_PLAN = "free"
+PINAX_STRIPE_SUBSCRIPTION_REQUIRED_REDIRECT = '/'
+
+## Badges
+
+### END OF PINAX INFORMATION ###
 
 
 REST_FRAMEWORK = {
@@ -70,6 +88,8 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+
+    'pinax.stripe.middleware.ActiveSubscriptionMiddleware',
 ]
 
 ROOT_URLCONF = 'src.urls'
@@ -96,15 +116,7 @@ TEMPLATES = [
 AUTH_USER_MODEL = 'accounts.Account'
 
 WSGI_APPLICATION = 'src.wsgi.application'
-ASGI_APPLICATION = 'src.routing.application'
-CHANNEL_LAYERS = {
-    'default': {
-        'BACKEND': 'channels_redis.core.RedisChannelLayer',
-        'CONFIG': {
-            "hosts": [('127.0.0.1', 6379)],
-        },
-    },
-}
+
 
 # Database
 # https://docs.djangoproject.com/en/3.0/ref/settings/#databases

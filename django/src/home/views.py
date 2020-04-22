@@ -2,6 +2,7 @@ from django.shortcuts import render
 from .models import Video
 from .forms import VideoForm
 import numpy as np
+from pinax.points.models import points_awarded, award_points
 
 def homepage(request):
     return render(request, 'home/homepage.html')
@@ -18,6 +19,8 @@ def get_client_ip(request):
 
 def map_view(request):
     map_videos = Video.objects.all()
+    usertotalpoints = points_awarded(request.user)
+    print(usertotalpoints)
     form= VideoForm(request.POST or None, request.FILES or None)
     if form.is_valid():
         video_upload = form.save(commit=False)
