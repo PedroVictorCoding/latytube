@@ -33,14 +33,13 @@
 
     {% for lastvideo in videos %}          
     <div class="video-container mb-2">
-        <video id="{{ lastvideo.id }}" style="border-radius: 15px;" id="video" width='720' onclick="play();" muted>
+        <video id="{{ lastvideo.id }}" style="border-radius: 15px;" id="video" onclick="play();" muted>
             <source src="{{ MEDIA_URL }}{{ lastvideo.videofile }}" type="video/mp4" />
         </video>
         <div onclick='playvideo("{{ lastvideo.id }}")' id="video-overlay-{{ lastvideo.id }}" class="video-overlay">
-            <div class="video-overlay video-shadow" style="margin-left:32px; margin-bottom: 8px">
+            <div class="video-overlay video-shadow" style="margin-left:32px; margin-bottom: 8px;">
                 <h4 class="text-white" style="position:absolute; bottom: 10px; left: 20px;">{{ lastvideo.title }}</h4>
                 <h5 class="text-white" style="position:absolute; bottom: 11px; right: 20px;">{{ lastvideo.author.username }}</h5>
-                <i class="fa fa-star" style="position:absolute; top: 20px; right: 18px; color: white; font-size: 45px;" aria-hidden="true"></i>
             </div>
         </div>
     </div>

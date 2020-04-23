@@ -20,6 +20,7 @@ def get_client_ip(request):
 def map_view(request):
     map_videos = Video.objects.all()
     usertotalpoints = points_awarded(request.user)
+    user_videos = Video.objects.filter(author=request.user).order_by('-date_of_upload')
     print(usertotalpoints)
     form= VideoForm(request.POST or None, request.FILES or None)
     if form.is_valid():
@@ -33,7 +34,7 @@ def map_view(request):
         # TODO: Generate JSON inside media folder
         form.save()
         
-    args = {'map_videos': map_videos, 'form': form}
+    args = {'map_videos': map_videos, 'form': form, 'videos': user_videos}
     return render(request, 'home/map_view.html', args)
 
 
