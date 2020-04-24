@@ -15,3 +15,4 @@
       - Bronze I, II, III; Silver I, II, III; Gold I, II, III; Ruby I, II, III; Emerald I, II, III; Diamond I, II, III
   - [ ] Premium gives x amount of XP mounthly
   - [ ] (Possibly) Premium gives free tokens every month
+  - [ ] Users get token/ perks at every level
