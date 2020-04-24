@@ -32,10 +32,10 @@
 
 {% block wave %}
 
-<div class="headerz">
+<div class="headerz" style="overflow-x: hidden;">
 </div>
   <div class="canvas-wrap">
-    <canvas id="canvas"></canvas>
+    <canvas id="canvas" style="overflow-x: hidden;"></canvas>
   </div>
 
    <style>
@@ -56,6 +56,7 @@
     margin: 0;
     padding: 0;
     background: #f8f8f8;
+    overflow-x: hidden;
   }
   
   .headerz,
@@ -66,12 +67,14 @@
     align-items: center;
     justify-content: center;
     text-align: center;
+    overflow-x: hidden;
   }
   
   .headerz {
     background-color: #23e8a5;
     background-image: linear-gradient(to bottom, rgba(#715, .5), transparent);
     color: rgb(255, 255, 255);
+    overflow-x: hidden;
   }
   
   
@@ -87,10 +90,12 @@
     overflow: hidden;
     position: absolute;
     transform: translateY(-50%);
+    overflow-x: hidden;
   }
   
   canvas {
     display: block;
+    overflow-x: hidden;
   }
   
   </style>

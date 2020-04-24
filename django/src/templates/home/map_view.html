@@ -113,19 +113,19 @@
 
         }
 
-        function openProfile(){
+        function openProfile() {
             var uploader_div = document.getElementById("uploaderDiv");
             var chat_div = document.getElementById('chatDiv');
             var achievements_div = document.getElementById('achievementsDiv');
             var profile_div = document.getElementById('profileDiv');
 
-            if (achievements_div.style.display === "none") {
+            if (profile_div.style.display === "none") {
                 uploader_div.style.display = "none";
                 chat_div.style.display = 'none';
-                achievements_div.style.display = 'none';
                 profile_div.style.display = 'block';
+                achievements_div.style.display = 'none';
             } else {
-                achievements_div.style.display = "none";
+                profile_div.style.display = "none";
             }
 
         }
@@ -174,35 +174,36 @@
         Achievements Here
     </div>
 
-    <div id="profileDiv" class="bg-white shadow rounded ml-3 mt-3" style="overflow-y: scroll; overflow-x: hidden; max-height: 80vh; width: 450px; display: none;">
+    <div id="profileDiv" class="bg-white shadow rounded ml-3 mt-3 container" style="overflow-y: scroll; overflow-x: hidden; height: 80vh; width: 450px; display: none;">
         
         <div class="mt-2 rounded-lg bg-white ml-1 mr-1">
             <p>
                 <!--<img src="" alt="ProfileImg"> <br>-->
-                <b>Username:</b> <br> {{ user.username }} <br>
-                <span style="float:left">Email</span><span style="float:right">{{ user.email }}</span>
-                <div class="row">
-                    <div class="col">Followers: </div>
-                    <div class="col">Following: </div>
-                </div>
-                    {% points_for_object user as points %}
-        <div class="user-points">Total XP: {{ points }}</div>
-    
+                <span style="float:left"><b>Username:</b></span><span style="float:right">{{ user.username }}</span>
+                <br>
+                <span style="float:left"><b>Email:</b></span><span style="float:right">{{ user.email }}</span>
+                <br>
+                <span style="float: left;"><b>Followers:</b></span><span style="float: right;"></span>
+                <br>
+                <span style="float: left;"><b>Following:</b></span><span style="float: right;"></span>
+                <br>
+                {% points_for_object user as points %}
+                <span style="float: left;"><b>Total XP:</b></span><span style="float: right;">{{ points }}</span>
             </p>
         </div>
-        <h4 class="text-center"><b>Your Videos</b></h4>
+        <div style="width: 100%;">
+            <h4 style="text-align: left;">Your Videos</h4>
+        </div>
         {% for lastvideo in videos %}          
-        
-        <div style="">
-            <div class="video-container mb-2">
-                <video id="{{ lastvideo.id }}" style="border-radius: 15px;" id="video" width='430px' onclick="play();" muted>
+        <div>
+            <div class="video-container mb-2" style="display: table; margin: 0 auto;">
+                <video id="{{ lastvideo.id }}-profile" style="border-radius: 15px;" id="video" width='400px' onclick="play();" muted>
                     <source src="{{ MEDIA_URL }}{{ lastvideo.videofile }}" type="video/mp4" />
                 </video>
-                <div onclick='playvideo("{{ lastvideo.id }}")' id="video-overlay-{{ lastvideo.id }}" style="width:430px" class="video-overlay">
-                    <div class="video-overlay video-shadow" style="max-width:430px">
+                <div onclick='playvideo("{{ lastvideo.id }}-profile")' id="video-overlay-{{ lastvideo.id }}-profile" style="max-width:400px; max-height:711.11px" class="video-overlay">
+                    <div class="video-overlay video-shadow" style="max-width:400px; max-height:711.11px">
                         <h4 class="text-white" style="position:absolute; bottom: 10px; left: 20px;">{{ lastvideo.title }}</h4>
                         <h5 class="text-white" style="position:absolute; bottom: 11px; right: 20px;">{{ lastvideo.author.username }}</h5>
-                        <i class="fa fa-star" style="position:absolute; top: 20px; right: 18px; color: white; font-size: 45px;" aria-hidden="true"></i>
                     </div>
                 </div>
             </div>
@@ -267,28 +268,13 @@
 
     </style>
 
-<script>
-    function showPosition() {
-        var location_val;
-              navigator.geolocation.getCurrentPosition(function(position) {
-                  var positionInfo = position.coords.latitude + ',' + position.coords.longitude;
-                  Latitude = position.coords.latitude;
-                  Longitude = position.coords.longitude;
-                  document.getElementById("longlatResults").innerHTML = positionInfo;
-                  var location_val = document.getElementById("longlatResults").innerHTML;
-                  
-              });
-          }
-      showPosition();
-</script>
-
 
 <div id="longlatResults" style="visibility: hidden;"></div>
 
 <script>
 
 
-//MapToken = 'pk.eyJ1IjoicGVkcm9sYXZpY3RvciIsImEiOiJjazgzeGU0ZzAwNDh3M2ZtcnAzM2dhcDVqIn0.lAbM_sMMIogn7qPyX1bi4w';
+MapToken = 'pk.eyJ1IjoicGVkcm9sYXZpY3RvciIsImEiOiJjazgzeGU0ZzAwNDh3M2ZtcnAzM2dhcDVqIn0.lAbM_sMMIogn7qPyX1bi4w';
 mapStyle = "{% static 'json/mapStyle.json' %}"
 
 mapboxgl.accessToken = MapToken;

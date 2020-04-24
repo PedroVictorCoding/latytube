@@ -3,6 +3,7 @@ from .models import Video
 from .forms import VideoForm
 import numpy as np
 from pinax.points.models import points_awarded, award_points
+from django.contrib.auth.decorators import login_required
 
 def homepage(request):
     return render(request, 'home/homepage.html')
@@ -16,12 +17,11 @@ def get_client_ip(request):
         ip = request.META.get('REMOTE_ADDR')
     return ip
 
-
+@login_required()
 def map_view(request):
     map_videos = Video.objects.all()
     usertotalpoints = points_awarded(request.user)
     user_videos = Video.objects.filter(author=request.user).order_by('-date_of_upload')
-    print(usertotalpoints)
     form= VideoForm(request.POST or None, request.FILES or None)
     if form.is_valid():
         video_upload = form.save(commit=False)
