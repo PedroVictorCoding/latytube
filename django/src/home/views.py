@@ -4,6 +4,7 @@ from .forms import VideoForm
 import numpy as np
 from pinax.points.models import points_awarded, award_points
 from django.contrib.auth.decorators import login_required
+from friendship.models import Friend, Follow, Block
 
 def homepage(request):
     return render(request, 'home/homepage.html')
@@ -17,10 +18,15 @@ def get_client_ip(request):
         ip = request.META.get('REMOTE_ADDR')
     return ip
 
+
+
+
 @login_required()
 def map_view(request):
     map_videos = Video.objects.all()
     usertotalpoints = points_awarded(request.user)
+    amountfollowers = len(Follow.objects.followers(request.user))
+    amountfollowing = len(Follow.objects.following(request.user))
     user_videos = Video.objects.filter(author=request.user).order_by('-date_of_upload')
     form= VideoForm(request.POST or None, request.FILES or None)
     if form.is_valid():
@@ -31,11 +37,21 @@ def map_view(request):
         video_upload.like_count = 0
         video_upload.view_count = 0
         #video_upload.location = LonlatIPVal
-        # TODO: Generate JSON inside media folder
         form.save()
         
-    args = {'map_videos': map_videos, 'form': form, 'videos': user_videos}
+    args = {
+        'map_videos': map_videos,
+        'form': form, 
+        'videos': user_videos,
+        'amountfollowers': amountfollowers,
+        'amountfollowing': amountfollowing,
+        # send random mapbox tile from multiple accounts to bypass pricing
+        }
     return render(request, 'home/map_view.html', args)
+
+
+
+
 
 
 def showvideo(request):

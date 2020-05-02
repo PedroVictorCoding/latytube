@@ -14,4 +14,3 @@ function waveInit() {
 
     ocean.appendChild(docFrag);
 }
-

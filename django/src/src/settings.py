@@ -51,6 +51,8 @@ INSTALLED_APPS = [
     'pinax.points',
     'rest_framework',
     'rest_framework.authtoken',
+    'friendship',
+    'django_countries',
 ]
 
 ### PINAX INFORMATION ###

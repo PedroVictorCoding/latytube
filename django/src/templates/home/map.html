@@ -1,0 +1,195 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}
+<title>Latytube</title>
+<script src='https://api.tiles.mapbox.com/mapbox-gl-js/v0.52.0/mapbox-gl.js'></script>
+<link href='https://api.tiles.mapbox.com/mapbox-gl-js/v0.52.0/mapbox-gl.css' rel='stylesheet'/>
+{% endblock title %}
+{% block wave %}
+<style>
+    #map { position:absolute; top:0; bottom:0; width:100%; }
+
+    .mapboxgl-popup {
+        max-width: 200px;
+        }
+
+    .mapboxgl-popup-content {
+    text-align: center;
+    font-family: 'Open Sans', sans-serif;
+    }
+
+            .marker {
+                background-size: cover;
+                margin-top: -15vh;
+                border-radius: 10px;
+                font-size: 100%;
+                cursor: pointer;
+                width: 16.88vh;
+                height: 30vh;
+                z-index: 1;
+            }
+            .marker:hover {
+                width: 45vh;
+                height: 80vh;
+                z-index: 2;
+                font-size: 150%;
+                box-shadow: 0px 0px 50px #000000;
+                animation-name: zoomin;
+                animation-duration: 1s;
+            }
+
+            @keyframes zoomin {  
+                0%   {width: 16.88vh; height: 30vh;}
+                100% {width: 45vh; height: 80vh; font-size: 150%;}
+            }
+
+            #custom-seekbar {  
+                cursor: pointer;
+                height: 5px;
+                position:absolute;
+                top:0;
+                width:90%;
+                margin-top: 10px;
+            }
+            #custom-seekbar span{
+                position: absolute;
+                top: 0;
+                height: 5px;
+                width: 0px;
+                border-radius:30px;
+                box-shadow: 0px 0px 50px #000000;
+                margin-left: 5%;
+                margin-right: 5%;
+            }
+
+            /* following rule is for hiding Stack Overflow's console  */
+            .as-console-wrapper{ display: none !important;}
+
+            #mydiv {
+                min-width: 450px;
+                width: 25vw;
+                position: absolute;
+                z-index: 9;
+                background-color: #fff;
+                text-align: center;
+                top: 30px;
+                left: 20px;
+                border-radius: .25em;
+            }
+
+            #navigator {
+            cursor: move;
+            z-index: 10;
+            color: #000;
+            }
+
+            #mydivheader {
+            padding: 10px;
+            cursor: move;
+            z-index: 10;
+            }
+    </style>
+
+{% endblock wave %}
+
+{% block content %}
+
+<div id="map"></div>
+
+<script>
+    // Map Initialization
+
+MapToken = 'pk.eyJ1IjoicGVkcm9sYXZpY3RvciIsImEiOiJjazlwMW81bjEwNmVsM2t0cm4zcHl6aXF3In0.jn6k1K49A-wTzkYUnsvR1g';
+mapStyle = "{% static 'json/mapStyle.json' %}"
+
+mapboxgl.accessToken = MapToken;
+
+var map = new mapboxgl.Map({
+    container: 'map', // container id
+    style: mapStyle, // stylesheet location
+    center: [-37, 28], // starting position [lng, lat]
+    zoom: 3, // starting zoom
+    maxZoom: 8,
+    minZoom: 3,
+});
+
+
+var geojson = {
+    type: 'FeatureCollection',
+    features: [
+       {% for map_video in map_videos %} 
+        {
+            type: 'Feature',
+            geometry: {
+            type: 'Point',
+            coordinates: [{{ map_video.longitude }}, {{ map_video.latitude }}]
+            },
+            properties: {
+            title: '{{ map_video.title }}',
+            author: '{{ map_video.author.username }}',
+            videofile: '{{ map_video.videofile.url }}',
+            country: '{{ map_video.country_of_upload }}',
+            id: '{{ map_video.id }}',
+            }
+        },                
+        {% endfor %}
+    ]
+};
+
+    // Videos and their layout
+    geojson.features.forEach(function(marker) {
+
+            // create a HTML element for each feature
+            var el = document.createElement('div');
+            el.className = "video-container marker"
+            el.setAttribute("onclick","playvideo(" + marker.properties.id + ");");
+
+            var video_v = document.createElement('video');
+            video_v.id = marker.properties.id;
+            video_v.style = "width:100%; height:100%; border-radius:10px;"
+            video_v.src = marker.properties.videofile;
+            video_v.href = "/feed/v/" + marker.properties.id;
+            video_v.loop = "true";
+            video_v.className = '';
+            el.appendChild(video_v);
+
+            var video_shadow = document.createElement("div");
+            video_shadow.className = "video-overlay"
+            video_shadow.style = "bottom:0; left:0; width:100%; height:100%; border-radius:10px; background: linear-gradient(180deg, rgba(0, 0, 0, 0) 36.98%, rgba(0, 0, 0, 0.21) 52.08%, #121212 98.44%);"
+            el.appendChild(video_shadow);
+
+            video_progress_bar_div = document.createElement('div')
+            video_progress_bar_div.id = "custom-seekbar"
+            video_progress_bar_div.style = ""
+            el.appendChild(video_progress_bar_div)
+
+            video_progress_bar = document.createElement("span");
+            video_progress_bar.id = "progressbar" + marker.properties.id;
+            video_progress_bar_div.appendChild(video_progress_bar)
+
+            var video_title = document.createElement("p");
+            video_title.innerHTML = marker.properties.title;
+            video_title.style = "position: absolute; bottom: 8px; left:7px; position:absolute; color:#fff; font-weight:bold"
+            el.appendChild(video_title);
+
+            var video_author = document.createElement("p");
+            video_author.innerHTML = marker.properties.author;
+            video_author.style = "bottom: -10px; left:7px; position:absolute; color:#fff;"
+            el.appendChild(video_author);
+
+
+            new mapboxgl.Marker(el)
+            .setLngLat(marker.geometry.coordinates)
+            .addTo(map);
+
+        });
+
+
+
+
+
+</script>
+
+
+
+{% endblock content %}

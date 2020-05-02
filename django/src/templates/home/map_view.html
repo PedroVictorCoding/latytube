@@ -8,7 +8,7 @@
     <meta name='viewport' content='initial-scale=1,maximum-scale=1,user-scalable=no' />
     <script src='https://api.tiles.mapbox.com/mapbox-gl-js/v0.52.0/mapbox-gl.js'></script>
     <link href='https://api.tiles.mapbox.com/mapbox-gl-js/v0.52.0/mapbox-gl.css' rel='stylesheet' />
-    
+
     {% for map_video in map_videos %}
     <style>
         body { margin:0; padding:0; }
@@ -33,189 +33,266 @@
     
 {% block content %}
 
-<div style="position:absolute; z-index: 2;">
-      <div class="btn-group ml-3 mt-3" style="width:450px" role="group" aria-label="Second group">
-        <button type="button" class="btn btn-light" onclick="openUploader();">
+
+<div id="mydiv" class="shadow-lg">
+    <div class="btn-group" style="width:100%" role="group" aria-label="Second group">
+        <button id="mydivheader" class="btn-dark pl-3 pr-3 pt-2 pb-2" style="border: 1px solid transparent;">
+            <svg class="bi bi-arrows-move" width="1em" height="1em" viewBox="0 0 16 16" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+            <path fill-rule="evenodd" d="M6.5 8a.5.5 0 00-.5-.5H1.5a.5.5 0 000 1H6a.5.5 0 00.5-.5z" clip-rule="evenodd"/>
+            <path fill-rule="evenodd" d="M3.854 5.646a.5.5 0 00-.708 0l-2 2a.5.5 0 000 .708l2 2a.5.5 0 00.708-.708L2.207 8l1.647-1.646a.5.5 0 000-.708zM9.5 8a.5.5 0 01.5-.5h4.5a.5.5 0 010 1H10a.5.5 0 01-.5-.5z" clip-rule="evenodd"/>
+            <path fill-rule="evenodd" d="M12.146 5.646a.5.5 0 01.708 0l2 2a.5.5 0 010 .708l-2 2a.5.5 0 01-.708-.708L13.793 8l-1.647-1.646a.5.5 0 010-.708zM8 9.5a.5.5 0 00-.5.5v4.5a.5.5 0 001 0V10a.5.5 0 00-.5-.5z" clip-rule="evenodd"/>
+            <path fill-rule="evenodd" d="M5.646 12.146a.5.5 0 000 .708l2 2a.5.5 0 00.708 0l2-2a.5.5 0 00-.708-.708L8 13.793l-1.646-1.647a.5.5 0 00-.708 0zM8 6.5a.5.5 0 01-.5-.5V1.5a.5.5 0 011 0V6a.5.5 0 01-.5.5z" clip-rule="evenodd"/>
+            <path fill-rule="evenodd" d="M5.646 3.854a.5.5 0 010-.708l2-2a.5.5 0 01.708 0l2 2a.5.5 0 01-.708.708L8 2.207 6.354 3.854a.5.5 0 01-.708 0z" clip-rule="evenodd"/>
+          </svg></button>
+        <button id="uploaderbtn" type="button" class="btn btn-dark" onclick="openUploader();" style="border: 1px solid transparent;">
             <svg class="bi bi-plus-square" width="1em" height="1em" viewBox="0 0 16 16" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
                 <path fill-rule="evenodd" d="M8 3.5a.5.5 0 01.5.5v4a.5.5 0 01-.5.5H4a.5.5 0 010-1h3.5V4a.5.5 0 01.5-.5z" clip-rule="evenodd"/>
                 <path fill-rule="evenodd" d="M7.5 8a.5.5 0 01.5-.5h4a.5.5 0 010 1H8.5V12a.5.5 0 01-1 0V8z" clip-rule="evenodd"/>
                 <path fill-rule="evenodd" d="M14 1H2a1 1 0 00-1 1v12a1 1 0 001 1h12a1 1 0 001-1V2a1 1 0 00-1-1zM2 0a2 2 0 00-2 2v12a2 2 0 002 2h12a2 2 0 002-2V2a2 2 0 00-2-2H2z" clip-rule="evenodd"/>
             </svg>
         </button>
-        <button type="button" class="btn btn-light" onclick="openChat()">
+        <button id="chatbtn" type="button" class="btn btn-dark" onclick="openChat()" style="border: 1px solid transparent;">
             <svg class="bi bi-chat" width="1em" height="1em" viewBox="0 0 16 16" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
                 <path fill-rule="evenodd" d="M2.678 11.894a1 1 0 01.287.801 10.97 10.97 0 01-.398 2c1.395-.323 2.247-.697 2.634-.893a1 1 0 01.71-.074A8.06 8.06 0 008 14c3.996 0 7-2.807 7-6 0-3.192-3.004-6-7-6S1 4.808 1 8c0 1.468.617 2.83 1.678 3.894zm-.493 3.905a21.682 21.682 0 01-.713.129c-.2.032-.352-.176-.273-.362a9.68 9.68 0 00.244-.637l.003-.01c.248-.72.45-1.548.524-2.319C.743 11.37 0 9.76 0 8c0-3.866 3.582-7 8-7s8 3.134 8 7-3.582 7-8 7a9.06 9.06 0 01-2.347-.306c-.52.263-1.639.742-3.468 1.105z" clip-rule="evenodd"/>
             </svg>
         </button>
-        <button type="button" class="btn btn-light" onclick="openAchievements()">
+        <button id="achievementsbtn" type="button" class="btn btn-dark" onclick="openAchievements()" style="border: 1px solid transparent;">
             <svg class="bi bi-star" width="1em" height="1em" viewBox="0 0 16 16" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
                 <path fill-rule="evenodd" d="M2.866 14.85c-.078.444.36.791.746.593l4.39-2.256 4.389 2.256c.386.198.824-.149.746-.592l-.83-4.73 3.523-3.356c.329-.314.158-.888-.283-.95l-4.898-.696L8.465.792a.513.513 0 00-.927 0L5.354 5.12l-4.898.696c-.441.062-.612.636-.283.95l3.523 3.356-.83 4.73zm4.905-2.767l-3.686 1.894.694-3.957a.565.565 0 00-.163-.505L1.71 6.745l4.052-.576a.525.525 0 00.393-.288l1.847-3.658 1.846 3.658a.525.525 0 00.393.288l4.052.575-2.906 2.77a.564.564 0 00-.163.506l.694 3.957-3.686-1.894a.503.503 0 00-.461 0z" clip-rule="evenodd"/>
             </svg>
         </button>
-        <button type="button" class="btn btn-light" onclick="openProfile()">
+        <button id="profilebtn" type="button" style="border: 1px solid transparent;" class="btn btn-dark" onclick="openProfile()">
             <svg class="bi bi-people-circle" width="1em" height="1em" viewBox="0 0 16 16" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
                 <path d="M13.468 12.37C12.758 11.226 11.195 10 8 10s-4.757 1.225-5.468 2.37A6.987 6.987 0 008 15a6.987 6.987 0 005.468-2.63z"/>
                 <path fill-rule="evenodd" d="M8 9a3 3 0 100-6 3 3 0 000 6z" clip-rule="evenodd"/>
                 <path fill-rule="evenodd" d="M8 1a7 7 0 100 14A7 7 0 008 1zM0 8a8 8 0 1116 0A8 8 0 010 8z" clip-rule="evenodd"/>
-              </svg>
+            </svg>
         </button>
     </div>
-
-    <script>
-        function openUploader() {
-            var uploader_div = document.getElementById("uploaderDiv");
-            var chat_div = document.getElementById('chatDiv');
-            var achievements_div = document.getElementById('achievementsDiv');
-            var profile_div = document.getElementById('profileDiv');
-
-            if (uploader_div.style.display === "none") {
-                uploader_div.style.display = "block";
-                chat_div.style.display = 'none';
-                profile_div.style.display = 'none';
-                achievements_div.style.display = 'none';
-            } else {
-                uploader_div.style.display = "none";
-            }
-
-        }
-
-        function openChat() {
-            var uploader_div = document.getElementById("uploaderDiv");
-            var chat_div = document.getElementById('chatDiv');
-            var achievements_div = document.getElementById('achievementsDiv');
-            var profile_div = document.getElementById('profileDiv');
-
-            if (chat_div.style.display === "none") {
-                uploader_div.style.display = "none";
-                chat_div.style.display = 'block';
-                achievements_div.style.display = 'none';
-                profile_div.style.display = 'none';
-            } else {
-                chat_div.style.display = "none";
-            }
-
-        }
-
-        function openAchievements() {
-            var uploader_div = document.getElementById("uploaderDiv");
-            var chat_div = document.getElementById('chatDiv');
-            var achievements_div = document.getElementById('achievementsDiv');
-            var profile_div = document.getElementById('profileDiv');
-
-            if (achievements_div.style.display === "none") {
-                uploader_div.style.display = "none";
-                chat_div.style.display = 'none';
-                profile_div.style.display = 'none';
-                achievements_div.style.display = 'block';
-            } else {
-                achievements_div.style.display = "none";
-            }
-
-        }
-
-        function openProfile() {
-            var uploader_div = document.getElementById("uploaderDiv");
-            var chat_div = document.getElementById('chatDiv');
-            var achievements_div = document.getElementById('achievementsDiv');
-            var profile_div = document.getElementById('profileDiv');
-
-            if (profile_div.style.display === "none") {
-                uploader_div.style.display = "none";
-                chat_div.style.display = 'none';
-                profile_div.style.display = 'block';
-                achievements_div.style.display = 'none';
-            } else {
-                profile_div.style.display = "none";
-            }
-
-        }
-
-    </script>
-
-
-
-    <div id="uploaderDiv" class="bg-white shadow rounded ml-3 mt-3" style="height: 100%; width: 450px; display: none;">
-    <form enctype="multipart/form-data" class="p-4 rounded-lg bg-white" method="POST">
-        {% csrf_token %}
-        {{ form.title }}
-        <div class="mt-2">{{ form.tags }}</div>
-
-        <div class="wrapper mt-2">
-            <div class="file-upload" style="border-width: 100%; border-style: solid; border-color: #23e8a5;">
-                <p style="margin-top: 0; margin-bottom: auto; position: relative;">Select Video</p>
-                {{ form.videofile }}
-            </div>
-        </div>
-
-            <script>
-                var vid = document.createElement('video');
-                document.querySelector('#videofileinput').addEventListener('change', function() {
-                var fileURL = URL.createObjectURL(this.files[0]);
-                vid.src = fileURL;
-                vid.ondurationchange = function() {
-                    if (this.duration > 30){
-                        alert("This video is longer then 30 seconds limit!\n Try to make it shorter")
-                        $("#videofileinput").trigger("click");
-                    }
-                };
-                });
-            </script>
-
-        <input class="btn btn-dark btn-lg btn-block mt-3" type="submit" value="Upload"/>
-    </form>
+    <div class="btn-group" style="width: 100%;">
+        <button class="btn-dark pl-3 pr-3 pt-2 pb-2" style="border: 1px solid transparent;">
+            <svg class="bi bi-search" width="1em" height="1em" viewBox="0 0 16 16" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                <path fill-rule="evenodd" d="M10.442 10.442a1 1 0 011.415 0l3.85 3.85a1 1 0 01-1.414 1.415l-3.85-3.85a1 1 0 010-1.415z" clip-rule="evenodd"/>
+                <path fill-rule="evenodd" d="M6.5 12a5.5 5.5 0 100-11 5.5 5.5 0 000 11zM13 6.5a6.5 6.5 0 11-13 0 6.5 6.5 0 0113 0z" clip-rule="evenodd"/>
+              </svg>
+        </button>
+        <input style="width: 100%; background-color: #fff; outline:none" type="text" placeholder="Search (videos, locations, and users)">
     </div>
 
-    <div id="chatDiv" class="bg-white shadow rounded ml-3 mt-3" style="height: 80vh; width: 450px; display: none;">
+<div id="moveDiv">
+
+<script>
+
+    function openUploader() {
+        var uploader_div = document.getElementById("uploaderDiv");
+        var chat_div = document.getElementById('chatDiv');
+        var achievements_div = document.getElementById('achievementsDiv');
+        var profile_div = document.getElementById('profileDiv');
+
+        if (uploader_div.style.display === "none") {
+            uploader_div.style.display = "block";
+            chat_div.style.display = 'none';
+            profile_div.style.display = 'none';
+            achievements_div.style.display = 'none';
+        } else {
+            uploader_div.style.display = "none";
+        }
+
+    }
+
+    function openChat() {
+        var uploader_div = document.getElementById("uploaderDiv");
+        var chat_div = document.getElementById('chatDiv');
+        var achievements_div = document.getElementById('achievementsDiv');
+        var profile_div = document.getElementById('profileDiv');
+
+        if (chat_div.style.display === "none") {
+            uploader_div.style.display = "none";
+            chat_div.style.display = 'block';
+            achievements_div.style.display = 'none';
+            profile_div.style.display = 'none';
+        } else {
+            chat_div.style.display = "none";
+        }
+
+    }
+
+    function openAchievements() {
+        var uploader_div = document.getElementById("uploaderDiv");
+        var chat_div = document.getElementById('chatDiv');
+        var achievements_div = document.getElementById('achievementsDiv');
+        var profile_div = document.getElementById('profile_div');
+        if (achievements_div.style.display === "none") {
+            uploader_div.style.display = "none";
+            chat_div.style.display = 'none';
+            profile_div.style.display = 'none';
+            achievements_div.style.display = 'block';
+        } else {
+            achievements_div.style.display = "none";
+        }
+
+    }
+
+    function openProfile() {
+        var uploader_div = document.getElementById("uploaderDiv");
+        var chat_div = document.getElementById('chatDiv');
+        var achievements_div = document.getElementById('achievementsDiv');
+        var profile_div = document.getElementById('profileDiv');
+
+        if (profile_div.style.display === "none") {
+            uploader_div.style.display = "none";
+            chat_div.style.display = 'none';
+            profile_div.style.display = 'block';
+            achievements_div.style.display = 'none';
+        } else {
+            profile_div.style.display = "none";
+        }
+
+    }
+
+</script>
 
 
+
+<div id="uploaderDiv" style="padding: 10px; height: 100%; width: 100%; display: none;">
+<form enctype="multipart/form-data" class="bg-white" method="POST">
+    {% csrf_token %}
+    {{ form.title }}
+    <div class="mt-2">{{ form.tags }}</div>
+    <div class="mt-2">{{ form.country_of_upload }}</div>
+
+    <div class="wrapper mt-2">
+        <div class="file-upload" style="border-width: 100%; border-style: solid; border-color: #23e8a5;">
+            <p style="margin-top: 0; margin-bottom: auto; position: relative;">Select Video</p>
+            {{ form.videofile }}
+        </div>
     </div>
 
-    <div id="achievementsDiv" class="bg-white shadow rounded ml-3 mt-3" style="height: 80vh; width: 450px; display: none;">
-        Achievements Here
-    </div>
+        <script>
+            var vid = document.createElement('video');
+            document.querySelector('#videofileinput').addEventListener('change', function() {
+            var fileURL = URL.createObjectURL(this.files[0]);
+            vid.src = fileURL;
+            vid.ondurationchange = function() {
+                if (this.duration > 30){
+                    alert("This video is longer then 30 seconds limit!\n Try to make it shorter")
+                    $("#videofileinput").trigger("click");
+                }
+            };
+            });
+        </script>
 
-    <div id="profileDiv" class="bg-white shadow rounded ml-3 mt-3 container" style="overflow-y: scroll; overflow-x: hidden; height: 80vh; width: 450px; display: none;">
-        
-        <div class="mt-2 rounded-lg bg-white ml-1 mr-1">
-            <p>
-                <!--<img src="" alt="ProfileImg"> <br>-->
-                <span style="float:left"><b>Username:</b></span><span style="float:right">{{ user.username }}</span>
-                <br>
-                <span style="float:left"><b>Email:</b></span><span style="float:right">{{ user.email }}</span>
-                <br>
-                <span style="float: left;"><b>Followers:</b></span><span style="float: right;"></span>
-                <br>
-                <span style="float: left;"><b>Following:</b></span><span style="float: right;"></span>
-                <br>
-                {% points_for_object user as points %}
-                <span style="float: left;"><b>Total XP:</b></span><span style="float: right;">{{ points }}</span>
-            </p>
-        </div>
-        <div style="width: 100%;">
-            <h4 style="text-align: left;">Your Videos</h4>
-        </div>
-        {% for lastvideo in videos %}          
-        <div>
-            <div class="video-container mb-2" style="display: table; margin: 0 auto;">
-                <video id="{{ lastvideo.id }}-profile" style="border-radius: 15px;" id="video" width='400px' onclick="play();" muted>
-                    <source src="{{ MEDIA_URL }}{{ lastvideo.videofile }}" type="video/mp4" />
-                </video>
-                <div onclick='playvideo("{{ lastvideo.id }}-profile")' id="video-overlay-{{ lastvideo.id }}-profile" style="max-width:400px; max-height:711.11px" class="video-overlay">
-                    <div class="video-overlay video-shadow" style="max-width:400px; max-height:711.11px">
-                        <h4 class="text-white" style="position:absolute; bottom: 10px; left: 20px;">{{ lastvideo.title }}</h4>
-                        <h5 class="text-white" style="position:absolute; bottom: 11px; right: 20px;">{{ lastvideo.author.username }}</h5>
-                    </div>
-                </div>
-            </div>
-        </div>
-        
-        {% endfor %}
+    <input class="btn btn-dark btn-lg btn-block mt-3" type="submit" value="Upload"/>
+</form>
+</div>
 
-    </div>
+<div id="chatDiv" class="mt-3" style="padding: 10px; height: 80vh; width: 450px; display: none;">
 
 
 </div>
 
+<div id="achievementsDiv" class="mt-3" style="padding: 10px; height: 80vh; width: 450px; display: none;">
+    <div class="container-fluid">
+        {% points_for_object user as points %}
+        <span style="float: left;"><b>Total XP:</b></span><span style="float: right;">{{ points }}</span>
+    </div>
+</div>
+
+<div id="profileDiv" class="mt-3 container" style="padding: 10px; overflow-y: scroll; overflow-x: hidden; height: 80vh; width: 450px; display: none;">
+    
+    <div style="overflow: hidden;" class="mt-2 rounded-lg bg-white ml-1 mr-1">
+        <p>
+            <!--<img src="" alt="ProfileImg"> <br>-->
+            <span style="float:left"><b>Username:</b></span><span style="float:right">{{ user.username }}</span>
+            <br>
+            <span style="float:left"><b>Email:</b></span><span style="float:right">{{ user.email }}</span>
+            <br>
+            <div class="row">
+                <div class="col">
+                    <button type="button" class="btn btn-action" data-container="body" data-toggle="popover" data-placement="bottom" data-content="Vivamus
+                    sagittis lacus vel augue laoreet rutrum faucibus.">Followers: <span class="badge badge-light">{{ amountfollowers }}</span></button>
+                </div>
+                <div class="col">
+                    <button type="button" class="btn btn-action" data-container="body" data-toggle="popover" data-placement="bottom" data-content="Vivamus
+                    sagittis lacus vel augue laoreet rutrum faucibus.">Following: <span class="badge badge-light">{{ amountfollowing }}</span></button>
+                </div>
+            </div>
+            
+            <br>
+            
+        </p>
+    </div>
+    {% for lastvideo in videos %}          
+    <div>
+        <div class="video-container mb-2" style="display: table; margin: 0 auto;">
+            <video id="{{ lastvideo.id }}-profile" style="border-radius: 15px;" id="video" width='400px' onclick="play();" muted>
+                <source src="{{ MEDIA_URL }}{{ lastvideo.videofile }}" type="video/mp4" />
+            </video>
+            <div id="custom-seekbar"><span style="position:relative; float: left;" id="progressbar{{ lastvideo.id }}-profile"></span></div>
+            <div onclick='playvideo("{{ lastvideo.id }}-profile")' id="video-overlay-{{ lastvideo.id }}-profile" style="max-width:400px; max-height:711.11px" class="video-overlay">
+                <div class="video-overlay video-shadow" style="max-width:400px; max-height:711.11px">
+                    <h4 class="text-white" style="position:absolute; bottom: 10px; left: 20px;">{{ lastvideo.title }}</h4>
+                    <h5 class="text-white" style="position:absolute; bottom: 11px; right: 20px;">{{ lastvideo.author.username }}</h5>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    {% endfor %}
+
+</div>
+
+
+</div>
+
+
+</div>
+
+    <script>
+
+    dragElement(document.getElementById("mydiv"));
+
+    function dragElement(elmnt) {
+    var pos1 = 0, pos2 = 0, pos3 = 0, pos4 = 0;
+    if (document.getElementById(elmnt.id + "header")) {
+    /* if present, the header is where you move the DIV from:*/
+    document.getElementById(elmnt.id + "header").onmousedown = dragMouseDown;
+    } else {
+    /* otherwise, move the DIV from anywhere inside the DIV:*/
+    elmnt.onmousedown = dragMouseDown;
+    }
+
+    function dragMouseDown(e) {
+    e = e || window.event;
+    e.preventDefault();
+    // get the mouse cursor position at startup:
+    pos3 = e.clientX;
+    pos4 = e.clientY;
+    document.onmouseup = closeDragElement;
+    // call a function whenever the cursor moves:
+    document.onmousemove = elementDrag;
+    }
+
+    function elementDrag(e) {
+    e = e || window.event;
+    e.preventDefault();
+    // calculate the new cursor position:
+    pos1 = pos3 - e.clientX;
+    pos2 = pos4 - e.clientY;
+    pos3 = e.clientX;
+    pos4 = e.clientY;
+    // set the element's new position:
+    elmnt.style.top = (elmnt.offsetTop - pos2) + "px";
+    elmnt.style.left = (elmnt.offsetLeft - pos1) + "px";
+    }
+
+    function closeDragElement() {
+    /* stop moving when mouse button is released:*/
+    document.onmouseup = null;
+    document.onmousemove = null;
+    }
+    }
+    </script>
 
 <div id='map'></div>
 
@@ -225,6 +302,7 @@
                 background-size: cover;
                 margin-top: -15vh;
                 border-radius: 10px;
+                font-size: 100%;
                 cursor: pointer;
                 width: 16.88vh;
                 height: 30vh;
@@ -234,6 +312,7 @@
                 width: 45vh;
                 height: 80vh;
                 z-index: 2;
+                font-size: 150%;
                 box-shadow: 0px 0px 50px #000000;
                 animation-name: zoomin;
                 animation-duration: 1s;
@@ -241,7 +320,7 @@
 
             @keyframes zoomin {  
                 0%   {width: 16.88vh; height: 30vh;}
-                100% {width: 45vh; height: 80vh;}
+                100% {width: 45vh; height: 80vh; font-size: 150%;}
             }
 
             #custom-seekbar {  
@@ -266,6 +345,29 @@
             /* following rule is for hiding Stack Overflow's console  */
             .as-console-wrapper{ display: none !important;}
 
+            #mydiv {
+                min-width: 450px;
+                width: 25vw;
+                position: absolute;
+                z-index: 9;
+                background-color: #fff;
+                text-align: center;
+                top: 30px;
+                left: 20px;
+                border-radius: .25em;
+            }
+
+            #navigator {
+            cursor: move;
+            z-index: 10;
+            color: #000;
+            }
+
+            #mydivheader {
+            padding: 10px;
+            cursor: move;
+            z-index: 10;
+            }
     </style>
 
 
@@ -273,8 +375,7 @@
 
 <script>
 
-
-MapToken = 'pk.eyJ1IjoicGVkcm9sYXZpY3RvciIsImEiOiJjazgzeGU0ZzAwNDh3M2ZtcnAzM2dhcDVqIn0.lAbM_sMMIogn7qPyX1bi4w';
+MapToken = 'pk.eyJ1IjoicGVkcm9sYXZpY3RvciIsImEiOiJjazlwMW81bjEwNmVsM2t0cm4zcHl6aXF3In0.jn6k1K49A-wTzkYUnsvR1g';
 mapStyle = "{% static 'json/mapStyle.json' %}"
 
 mapboxgl.accessToken = MapToken;
@@ -284,11 +385,9 @@ var map = new mapboxgl.Map({
     style: 'mapbox://styles/pedrolavictor/ck8m6k9e30nvp1ilct2to4ac2', // stylesheet location
     center: [-37, 28], // starting position [lng, lat]
     zoom: 3, // starting zoom
-    maxZoom: 6,
+    maxZoom: 8,
     minZoom: 3,
 });
-
-
 
 
 var geojson = {
@@ -305,6 +404,8 @@ var geojson = {
             title: '{{ map_video.title }}',
             author: '{{ map_video.author.username }}',
             videofile: '{{ map_video.videofile.url }}',
+            country_of_upload: '{{ map_video.country_of_upload.name }}',
+            country_of_upload_flag: '{{ map_video.country_of_upload.flag }}',
             id: '{{ map_video.id }}',
             }
         },                
@@ -343,14 +444,19 @@ var geojson = {
 
             var video_title = document.createElement("p");
             video_title.innerHTML = marker.properties.title;
-            video_title.style = "position: absolute; bottom:-13px; left:5px; position:absolute; color:#fff;"
+            video_title.style = "position: absolute; bottom: 8px; left:7px; position:absolute; color:#fff; font-weight:bold"
             el.appendChild(video_title);
 
             var video_author = document.createElement("p");
             video_author.innerHTML = marker.properties.author;
-            video_author.style = "bottom:-13px; right:5px; position:absolute; color:#fff;"
+            video_author.style = "bottom: -10px; left:7px; position:absolute; color:#fff;"
             el.appendChild(video_author);
 
+
+            var country_flag = document.createElement("img");
+            country_flag.src = marker.properties.country_of_upload_flag;
+            country_flag.style = "position: absolute; top: 10px; right: 7px"
+            el.appendChild(country_flag);
 
             new mapboxgl.Marker(el)
             .setLngLat(marker.geometry.coordinates)
