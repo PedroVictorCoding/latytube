@@ -11,13 +11,19 @@ from rest_framework.generics import CreateAPIView
 from rest_framework.permissions import AllowAny
 from rest_framework.views import APIView
 
-from .serializers import VideoSerializer, RegistrationSerializer
+from .serializers import VideoSerializer, RegistrationSerializer, PublicUserSerializer
 from home.models import Video
-from accounts.models import Account
+from accounts.models import Account, UserProfile
 
 class VideoViewSet(viewsets.ModelViewSet):
     queryset = Video.objects.all()
     serializer_class = VideoSerializer
+    permission_classes = [IsAuthenticated]
+
+
+class PublicUserViewSet(viewsets.ModelViewSet):
+    queryset = UserProfile.objects.all()
+    serializer_class = PublicUserSerializer
     permission_classes = [IsAuthenticated]
 
 

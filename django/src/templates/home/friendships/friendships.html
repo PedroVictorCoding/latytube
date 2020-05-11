@@ -1,0 +1,101 @@
+<div style="max-width: 450px;">
+
+    <div class="btn-group" style="width:100%" role="group" aria-label="Basic example">
+        <button type="button" onclick="openfriendshiptab('publishVideoTab')" class="btn btn-secondary">Your Videos</button>
+        <button type="button" onclick="openfriendshiptab('followersTab')" class="btn btn-secondary">Followers</button>
+        <button type="button" onclick="openfriendshiptab('followingTab')" class="btn btn-secondary">Following</button>
+        <button type="button" onclick="openfriendshiptab('requestTab')" class="btn btn-secondary">Request</button>
+    </div>
+
+
+    <script>
+
+        function openfriendshiptab(tabId){
+            var publishedVideoTab_div   = document.getElementById("publishVideoTab");
+            var followersTab_div        = document.getElementById("followersTab");
+            var followingTab_div        = document.getElementById("followingTab");
+            var requestTab_div          = document.getElementById("requestTab");
+            var tabId_div               = document.getElementById(tabId);
+
+            if (tabId_div.style.display === "none") {
+                publishedVideoTab_div.style.display     = "none";
+                followersTab_div.style.display          = "none";
+                followingTab_div.style.display          = "none";
+                requestTab_div.style.display            = "none";
+                tabId_div.style.display                 = "block";
+            } else {
+                tabId_div.style.display                 = "none";
+            }
+        };
+
+        function openuserprofile(username){
+
+            var myHeaders = new Headers();
+            myHeaders.append("Authorization", "Token <value>");
+            var requestOptions = {
+            method: 'GET',
+            headers: myHeaders,
+            redirect: 'follow'
+            };
+
+            fetch("localhost:8000/api/videos/", requestOptions)
+            .then(response => response.text())
+            .then(result => console.log(result))
+            .catch(error => console.log('error', error));
+        
+        }
+
+    </script>
+
+
+    <div id="followersTab" style="display: none;">
+        {% for userfollower in userfollowers %}
+            <a onclick="openuserprofile('{{ userfollower.username }}')" href="#">{{ userfollower.username }}</a>
+            <div class="dropdown-divider"></div>
+        {% endfor %}
+    </div>
+
+
+    <div id="followingTab" style="display: none;">
+        {% for userfollowing in userfollowings %}
+            <a onclick="openuserprofile('{{ userfollowing.username }}')" href="#">{{ userfollowing.username }}</a>
+            <div class="dropdown-divider"></div>
+        {% endfor %}
+    </div>
+
+
+
+    <div id="requestTab" style="display: none;">requests</div>
+
+    <div id="publishVideoTab" style="display: block;">
+        {% comment %} {% for lastvideo in videos %}          
+        <div>
+            <div class="video-container mb-1 mt-1" style="display: table; margin: 0 auto;">
+                <video id="{{ lastvideo.id }}-profile" class="text-white" style="border-radius: 15px;" id="video" width='400px' onclick="play();">
+                    <source src="{{ MEDIA_URL }}{{ lastvideo.videofile }}" type="video/mp4" />
+                </video>
+                <div id="custom-seekbar"><span style="position:relative; float: left;" id="progressbar{{ lastvideo.id }}-profile"></span></div>
+                <div onclick='playvideoprofile("{{ lastvideo.id }}-profile")' id="{{ lastvideo.id }}-profile" style="max-width:400px; max-height:711.11px" class="video-overlay">
+                    <div class="video-overlay video-shadow" style="max-width:400px; max-height:711.11px">
+                        <h4 class="text-white" style="position:absolute; bottom: 10px; left: 20px;">{{ lastvideo.title }}</h4>
+                        <h5 class="text-white" style="position:absolute; bottom: 11px; right: 20px;">{{ lastvideo.author.username }}</h5>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% endfor %} {% endcomment %}
+
+        <script>
+            function playvideoprofile(videoId){
+                var mediaVideo = $("#" + videoId).get(0);
+                if (mediaVideo.paused){
+                    mediaVideo.play()
+                } else {
+                    mediaVideo.pause()
+                }
+            }
+        </script>
+
+    </div>
+    
+</div>

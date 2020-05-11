@@ -48,6 +48,8 @@ INSTALLED_APPS = [
 
     'pinax.badges',
     'pinax.stripe',
+    "bootstrapform",
+    "pinax.templates",
     'pinax.points',
     'rest_framework',
     'rest_framework.authtoken',

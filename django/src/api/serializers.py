@@ -1,6 +1,6 @@
 from rest_framework import serializers
 from home.models import Video
-from accounts.models import Account
+from accounts.models import Account, UserProfile
 
 
 class VideoSerializer(serializers.ModelSerializer):
@@ -50,3 +50,9 @@ class RegistrationSerializer(serializers.ModelSerializer):
         account.set_password(password)
         account.save()
         return account
+
+
+class PublicUserSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = UserProfile
+        fields = ('user', 'display_name', 'bio', 'image')

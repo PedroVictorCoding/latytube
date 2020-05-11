@@ -1,10 +1,12 @@
 from django.shortcuts import render
 from .models import Video
 from .forms import VideoForm
+from accounts.models import UserProfile
 import numpy as np
 from pinax.points.models import points_awarded, award_points
 from django.contrib.auth.decorators import login_required
 from friendship.models import Friend, Follow, Block
+import random
 
 def homepage(request):
     return render(request, 'home/homepage.html')
@@ -19,25 +21,28 @@ def get_client_ip(request):
     return ip
 
 
-
-
 @login_required()
 def map_view(request):
-    map_videos = Video.objects.all()
-    usertotalpoints = points_awarded(request.user)
-    amountfollowers = len(Follow.objects.followers(request.user))
-    amountfollowing = len(Follow.objects.following(request.user))
-    user_videos = Video.objects.filter(author=request.user).order_by('-date_of_upload')
-    form= VideoForm(request.POST or None, request.FILES or None)
+    map_videos          = Video.objects.order_by('?')[:10]
+
+    usertotalpoints     = points_awarded(request.user)
+    userfollowers       = Follow.objects.followers(request.user)
+    userfollowings      = Follow.objects.following(request.user)
+    amountfollowers     = len(userfollowers)
+    amountfollowing     = len(userfollowings)
+    userprofile         = UserProfile.objects.get(user=request.user)
+    user_videos         = Video.objects.filter(author=request.user).order_by('-date_of_upload')
+    form                = VideoForm(request.POST or None, request.FILES or None)
     if form.is_valid():
-        video_upload = form.save(commit=False)
-        title = form.cleaned_data['title']
-        tags = form.cleaned_data['tags']
-        video_upload.author = request.user
+        video_upload            = form.save(commit=False)
+        title                   = form.cleaned_data['title']
+        tags                    = form.cleaned_data['tags']
+        video_upload.author     = request.user
         video_upload.like_count = 0
         video_upload.view_count = 0
-        #video_upload.location = LonlatIPVal
+        #video_upload.location  = LonlatIPVal
         form.save()
+        form                    = VideoForm()
         
     args = {
         'map_videos': map_videos,
@@ -45,13 +50,12 @@ def map_view(request):
         'videos': user_videos,
         'amountfollowers': amountfollowers,
         'amountfollowing': amountfollowing,
+        'userfollowers': userfollowers,
+        'userfollowings': userfollowings,
+        'userprofile': userprofile,
         # send random mapbox tile from multiple accounts to bypass pricing
         }
-    return render(request, 'home/map_view.html', args)
-
-
-
-
+    return render(request, 'home/map.html', args)
 
 
 def showvideo(request):

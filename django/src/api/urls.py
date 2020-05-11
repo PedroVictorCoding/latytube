@@ -7,10 +7,11 @@ from django.contrib.auth.views import LoginView, LogoutView, PasswordResetView, 
 from django.contrib.auth.views import PasswordResetConfirmView, PasswordResetCompleteView
 from rest_framework import routers
 from rest_framework.authtoken.views import obtain_auth_token
-from .views import VideoViewSet, registration_view, LogoutUserAPIView
+from .views import VideoViewSet, registration_view, LogoutUserAPIView, PublicUserViewSet
 
 router = routers.DefaultRouter()
 router.register('videos', VideoViewSet, 'videos')
+router.register('public_user', PublicUserViewSet, 'Public User')
 
 app_name = 'account'
 
