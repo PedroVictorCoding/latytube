@@ -6,7 +6,11 @@ from django.contrib.staticfiles.urls import staticfiles_urlpatterns
 from django.contrib.auth.views import LoginView, LogoutView, PasswordResetView, PasswordResetDoneView
 from django.contrib.auth.views import PasswordResetConfirmView, PasswordResetCompleteView
 from rest_framework import routers
-from home.views import homepage, map_view, showvideo, showfullvideo
+from home.views import (
+    homepage, 
+    map_view, 
+    showvideo, 
+    showfullvideo,)
 
 router = routers.DefaultRouter() 
 

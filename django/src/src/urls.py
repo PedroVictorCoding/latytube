@@ -29,5 +29,6 @@ urlpatterns = [
     path('api/', include('api.urls')),
     path('badges/', include('pinax.badges.urls', namespace='pinax_badges')),
     path('payments/', include('pinax.stripe.urls')),
-    path('friendship/', include('friendship.urls'))
+    path('friendship/', include('friendship.urls')),
+    path("stripe/", include("djstripe.urls", namespace="djstripe")),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

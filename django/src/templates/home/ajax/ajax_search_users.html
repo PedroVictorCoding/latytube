@@ -1,0 +1,37 @@
+
+{% if search_elements %}
+
+<div>
+{% for searched in search_elements %}
+    <div class="mb-3">
+        <span ><b>{{ searched.username }}</b></span>
+        <span style="float:right" onclick="followUser('{{ user.pk }}', '{{ searched.pk }}')" class="btn btn-primary">Follow</span><br>
+    </div>
+{% endfor %}
+</div>
+
+<script>
+
+function followUser(fromUser, toUser) {
+    
+            $.ajax({
+                type: 'POST',
+                url: '/f/follow/f/' + fromUser + '/t/' + toUser + '/' ,
+                data: {
+                    'search_text': $('#user_search').val(),
+                    'csrfmiddlewaretoken': $("input[name=csrfmiddlewaretoken]").val()
+                },
+                success: sendFollowRequest,
+            });
+    
+        function sendFollowRequest(data, textStatus, jqXHR){
+        }
+
+
+}
+
+</script>
+
+{% else %}
+Nothing to show
+{% endif %}

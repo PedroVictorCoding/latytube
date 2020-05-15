@@ -1,0 +1,27 @@
+{% load pinax_points_tags %}
+
+<div id="achievementsDiv" class="bg-dark text-white shadow"  style="padding: 10px; height: 100%;  width: 450px; display: none;">
+    <h3 class="text-center p-2">Achievements</h3>
+    <div class="container-fluid">
+        {% points_for_object user as points %}
+        <span style="float: left;"><b>Total XP:</b></span><span style="float: right;">{{ points }}</span><br>
+        
+        <!-- <div class="mt-3">
+            <p>{{ userachievements.sharinglatytube.verbose_name.title }}</p>
+            <div class="progress">
+                <div class="progress-bar bg-success" role="progressbar" style="width:50%" aria-valuenow="5" aria-valuemin="0" aria-valuemax="10"></div>
+            </div>
+            <span style="float: left;">0</span><span style="float: right;">10</span><br>
+        </div> -->
+
+        <div class="mt-3">
+            <p>Share With Friends:</p>
+            <div class="progress">
+                <div class="progress-bar bg-success" role="progressbar" style="width:50%" aria-valuenow="5" aria-valuemin="0" aria-valuemax="10"></div>
+            </div>
+            <span style="float: left;">0</span><span style="float: right;">10</span>
+        </div>
+
+    </div>
+
+</div>

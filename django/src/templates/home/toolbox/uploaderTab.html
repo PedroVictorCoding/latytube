@@ -1,0 +1,57 @@
+<div id="uploaderDiv" class="bg-dark text-white shadow"  style="padding: 10px; height: 100%;  width: 450px; display: none; z-index: ;">
+    <h3 class="text-center p-2">Upload Videos</h3>
+    <form enctype="multipart/form-data" class="bg-dark text-white" method="POST">
+        {% csrf_token %}
+        {{ form.title }}
+        <div class="mt-2">{{ form.tags }}</div>
+        <div class="mt-2">{{ form.country_of_upload }}</div>
+        <div class="mt-2">{{ form.video_skin }}</div>
+        {{ form.longitude }}
+        {{ form.latitude }}
+
+        <div class="wrapper mt-2">
+            <div class="file-upload" style="border-width: 100%; border-style: solid; border-color: #23e8a5;">
+                <p style="margin-top: 0; margin-bottom: auto; position: relative;">Select Video</p>
+                {{ form.videofile }}
+            </div>
+        </div>
+
+            <script>
+                var vid = document.createElement('video');
+                document.querySelector('#videofileinput').addEventListener('change', function() {
+                var fileURL = URL.createObjectURL(this.files[0]);
+                vid.src = fileURL;
+                vid.ondurationchange = function() {
+                    if (this.duration > 30){
+                        alert("This video is longer then 30 seconds limit!\n Try to make it shorter")
+                        $("#videofileinput").trigger("click");
+                    }
+                };
+                });
+
+                var userLatitude;
+                var userLongitude;
+                getLocation()
+
+                function getLocation() {
+                    if (navigator.geolocation) {
+                        navigator.geolocation.getCurrentPosition(showPosition);
+                    } else {
+                        alert("Geolocation doesn't work in this browser or it was not allowed")
+                    }
+                }
+
+                function showPosition(position) {
+                    userLatitude = position.coords.latitude;
+                    userLongitude = position.coords.longitude;
+                    $("#longitudeInput").val(userLongitude);
+                    $("#latitudeInput").val(userLatitude);
+                    console.log("Latitude: " + position.coords.latitude);
+                    console.log("Longitude: " + position.coords.longitude);
+                }
+
+            </script>
+
+        <input class="btn btn-action btn-lg btn-block mt-3" type="submit" value="Upload"/>
+    </form>
+</div>

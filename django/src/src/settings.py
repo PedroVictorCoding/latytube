@@ -46,6 +46,7 @@ INSTALLED_APPS = [
     'achievements',
 
 
+    "djstripe",
     'pinax.badges',
     'pinax.stripe',
     "bootstrapform",
@@ -70,6 +71,19 @@ PINAX_STRIPE_SUBSCRIPTION_REQUIRED_REDIRECT = '/'
 ## Badges
 
 ### END OF PINAX INFORMATION ###
+
+### DJ Stripe ###
+
+STRIPE_API_VERSION = '2019-09-09'
+
+STRIPE_LIVE_PUBLIC_KEY = os.environ.get("STRIPE_LIVE_PUBLIC_KEY", "<your publishable key>")
+STRIPE_LIVE_SECRET_KEY = os.environ.get("STRIPE_LIVE_SECRET_KEY", "<your secret key>")
+STRIPE_TEST_PUBLIC_KEY = os.environ.get("STRIPE_TEST_PUBLIC_KEY", "pk_test_cATiC4SlofkYX7iaQNY6syym001LEhLsHK")
+STRIPE_TEST_SECRET_KEY = os.environ.get("STRIPE_TEST_SECRET_KEY", "sk_test_ifyNfySknPGCDa7fx1KB0TMB00pOz5mMyS")
+STRIPE_LIVE_MODE = False  # Change to True in production
+DJSTRIPE_WEBHOOK_SECRET = "whsec_xxx"  # Get it from the section in the Stripe dashboard where you added the webhook endpoint
+
+### DJ Stripe ###
 
 
 REST_FRAMEWORK = {
@@ -174,6 +188,8 @@ MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
 STATIC_URL = '/static/'
+
+#STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 
 STATICFILES_DIRS = [
     os.path.join(BASE_DIR, 'static')

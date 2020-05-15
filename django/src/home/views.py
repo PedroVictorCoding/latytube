@@ -1,7 +1,7 @@
-from django.shortcuts import render
+from django.shortcuts import render, HttpResponse
 from .models import Video
 from .forms import VideoForm
-from accounts.models import UserProfile
+from accounts.models import UserProfile, Account
 import numpy as np
 from pinax.points.models import points_awarded, award_points
 from django.contrib.auth.decorators import login_required
@@ -85,4 +85,3 @@ def showfullvideo(request, pk=None):
     lastvideo = Video.objects.get(id=pk)
     args = {'lastvideo': lastvideo}
     return render(request, 'home/fullvideo.html', args)
-

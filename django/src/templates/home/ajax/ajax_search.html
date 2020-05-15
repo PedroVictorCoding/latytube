@@ -1,0 +1,17 @@
+{% if search_elements %}
+
+<div class="container-fluid">
+{% for searched in search_elements %}
+    <a href="#" style="color: inherit;">
+        <p><b>{{ searched.title }}</b>
+            <br>by {{ searched.author.username }}
+        </p>
+    </a>
+    <div class="dropdown-divider"></div>
+{% endfor %}
+</div>
+
+
+{% else %}
+Nothing to show
+{% endif %}
