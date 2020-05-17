@@ -120,6 +120,7 @@
     {% include 'home/toolbox/profileTab.html' %}
 </div>
 
+
 {% include 'home/updateVideos.html' %}
 
 <div id='map'></div>
@@ -141,13 +142,11 @@
   map.touchZoomRotate.disableRotation();
 
   var currentMarkers = []
-
-
-    var newBounds       = map.getBounds()
-    var NorthEastLat    = map.getBounds()._ne.lat
-    var NorthEastLng    = map.getBounds()._ne.lng
-    var SouthWestLat    = map.getBounds()._sw.lat
-    var SouthWestLng    = map.getBounds()._sw.lng
+  var newBounds       = map.getBounds()
+  var NorthEastLat    = map.getBounds()._ne.lat
+  var NorthEastLng    = map.getBounds()._ne.lng
+  var SouthWestLat    = map.getBounds()._sw.lat
+  var SouthWestLng    = map.getBounds()._sw.lng
 
       $.ajax({
         type: 'POST',
@@ -169,53 +168,11 @@
     }
 
   </script>
-  
-  <script id="addNewVideos"></script>
 
-  <script>
-
-    function playvideo(videoId, coordinatesOfVideo, videoTitle) {
-      var videoMarker = document.getElementById(videoId + "-element");
-      var mediaVideo = $("#" + videoId).get(0);
-      map.flyTo({
-          center: coordinatesOfVideo,
-          speed: 0.2,
-          });
-      if (mediaVideo.paused) {
-          document.title = videoTitle;
-
-          var els = document.querySelectorAll('.markerZoomIn')
-
-          _removeClasses()
-
-          function _removeClasses() {
-              for (var i = 0; i < els.length; i++) {
-                  els[i].classList.remove('markerZoomIn')
-                  document.querySelectorAll('video').forEach(vid => vid.pause());
-              }
-          }
-              videoMarker.classList.remove('markerZoomOut');
-              videoMarker.classList.add('markerZoomIn');
-
-          mediaVideo.play();
-          
-          mediaVideo.ontimeupdate = function(){
-          var percentage = ( mediaVideo.currentTime / mediaVideo.duration ) * 100;
-              $("#progressbar" + videoId).css("width", percentage+"%");
-          };
-
-      } else {
-          mediaVideo.pause();
-
-          document.title = "Latytube";
-          var videoMarker = document.getElementById(videoId+ "-element");
-          videoMarker.classList.remove("markerZoomIn");
-          videoMarker.classList.add('markerZoomOut');
-      }
-  }
+  <div id="addNewVideos"></div>
 
 
-</script>
+{% include 'home/videoplay.html' %}
 
 
 {% endblock content %}
