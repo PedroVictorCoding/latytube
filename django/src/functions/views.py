@@ -61,8 +61,9 @@ def video_in_boundary(request):
         NELng           = float(request.POST['NELng'])
         SWLat           = float(request.POST['SWLat'])
         SWLng           = float(request.POST['SWLng'])
+        videoQuantity   = int(request.POST['videoQuantity'])
         currentMarkers  = request.POST.getlist('currentMarkers[]')
         #newVideos = Video.objects.filter(Q(latitude >= SWLat) | Q(latitude <= NELat) & Q(longitude >= SWLng) | Q(longitude <= NELng))
-        newVideos = Video.objects.exclude(id__in=currentMarkers).filter(latitude__gte = SWLat, latitude__lte = NELat, longitude__gte = SWLng, longitude__lte = NELng).order_by('?')[:1]
+        newVideos = Video.objects.exclude(id__in=currentMarkers).filter(latitude__gte = SWLat, latitude__lte = NELat, longitude__gte = SWLng, longitude__lte = NELng).order_by('?')[:videoQuantity]
         args = {'newVideos': newVideos}
     return render(request, 'home/ajax/addVideos.html', args)

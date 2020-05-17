@@ -148,7 +148,7 @@
     var NorthEastLng    = map.getBounds()._ne.lng
     var SouthWestLat    = map.getBounds()._sw.lat
     var SouthWestLng    = map.getBounds()._sw.lng
-    
+
       $.ajax({
         type: 'POST',
         url: '/f/add/v/boundary',
@@ -158,6 +158,7 @@
             'SWLat' : SouthWestLat,
             'SWLng' : SouthWestLng,
             'currentMarkers': currentMarkers,
+            'videoQuantity': '3',
             'csrfmiddlewaretoken': $("input[name=csrfmiddlewaretoken]").val()
         },
         success: addVideosSuccess,

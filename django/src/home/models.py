@@ -28,8 +28,8 @@ class Video(models.Model):
     video_skin          = models.CharField(choices=skins_available, default="standard", max_length=50)
     
     #Generated
-    longitude       = models.IntegerField(blank=False)
-    latitude        = models.IntegerField(blank=False)
+    longitude       = models.FloatField(blank=False)
+    latitude        = models.FloatField(blank=False)
     like_count      = models.IntegerField(null=True, blank=True)
     view_count      = models.IntegerField(null=True, blank=True)
     author          = models.ForeignKey(Account, on_delete=models.CASCADE)
