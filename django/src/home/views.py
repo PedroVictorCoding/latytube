@@ -23,7 +23,7 @@ def get_client_ip(request):
 
 @login_required()
 def map_view(request):
-    map_videos          = Video.objects.order_by('?')[:10]
+    map_videos          = Video.objects.order_by('?')[:1]
 
     usertotalpoints     = points_awarded(request.user)
     userfollowers       = Follow.objects.followers(request.user)
@@ -55,7 +55,7 @@ def map_view(request):
         'userprofile': userprofile,
         # send random mapbox tile from multiple accounts to bypass pricing
         }
-    return render(request, 'home/map.html', args)
+    return render(request, 'home/map_view.html', args)
 
 
 def showvideo(request):

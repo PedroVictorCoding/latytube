@@ -1,0 +1,43 @@
+<script>
+    // Detects if page was dragged
+    var $body = $('body');
+    $body.on('mouseup', function (evt) {
+        $body.on('mouseup mousemove', function handler(evt) {
+            if (evt.type !== 'mouseup') {
+                console.log('Drag');
+                var newBounds       = map.getBounds()
+                var NorthEastLat    = map.getBounds()._ne.lat
+                var NorthEastLng    = map.getBounds()._ne.lng
+                var SouthWestLat    = map.getBounds()._sw.lat
+                var SouthWestLng    = map.getBounds()._sw.lng
+                //console.log(newBounds);
+                
+                $.ajax({
+                    type: 'POST',
+                    url: '/f/add/v/boundary',
+                    data: {
+                        'NELat' : NorthEastLat,
+                        'NELng' : NorthEastLng,
+                        'SWLat' : SouthWestLat,
+                        'SWLng' : SouthWestLng,
+                        'currentMarkers': currentMarkers,
+                        'csrfmiddlewaretoken': $("input[name=csrfmiddlewaretoken]").val()
+                    },
+                    success: addVideosSuccess,
+                });
+
+                function addVideosSuccess(data, textStatus, jqXHR){
+                    $('#addNewVideos').html(data);
+                }
+
+
+
+                
+            }
+            $body.off('mouseup mousemove', handler);
+        });
+    });
+
+    //Detects if page was zoomed
+
+</script>

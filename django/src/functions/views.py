@@ -1,4 +1,5 @@
 from django.shortcuts import render, HttpResponseRedirect
+from django.db.models import Q
 from home.models import Video
 from accounts.models import Account
 from friendship.models import Friend, Follow, Block
@@ -45,7 +46,6 @@ def followRequest(request, fromUser, toUser):
     return render(request, 'base.html')
 
 
-
 def random_video(request):
     if request.method == "POST":
         randomvideo = Video.objects.order_by('?')[:1]
@@ -54,3 +54,15 @@ def random_video(request):
     args = {'randomvideo': randomvideo}
     print(args)
     return render(request, 'home/individual_video.js', args)
+
+def video_in_boundary(request):
+    if request.method == "POST":
+        NELat           = float(request.POST['NELat'])
+        NELng           = float(request.POST['NELng'])
+        SWLat           = float(request.POST['SWLat'])
+        SWLng           = float(request.POST['SWLng'])
+        currentMarkers  = request.POST.getlist('currentMarkers[]')
+        #newVideos = Video.objects.filter(Q(latitude >= SWLat) | Q(latitude <= NELat) & Q(longitude >= SWLng) | Q(longitude <= NELng))
+        newVideos = Video.objects.exclude(id__in=currentMarkers).filter(latitude__gte = SWLat, latitude__lte = NELat, longitude__gte = SWLng, longitude__lte = NELng).order_by('?')[:1]
+        args = {'newVideos': newVideos}
+    return render(request, 'home/ajax/addVideos.html', args)

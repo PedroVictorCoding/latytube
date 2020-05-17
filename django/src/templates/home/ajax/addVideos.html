@@ -1,0 +1,45 @@
+{% if newVideos %}
+<script>
+
+var geojson = {
+    type: 'FeatureCollection',
+        features: [
+        {% for newVideo in newVideos %} 
+          {
+            type: 'Feature',
+            geometry: {
+            type: 'Point',
+            coordinates: [{{ newVideo.longitude }}, {{ newVideo.latitude }}]
+            },
+            properties: {
+            title: '{{ newVideo.title }}',
+            author: '{{ newVideo.author.username }}',
+            videofile: '{{ MEDIA_URL }}{{ newVideo.videofile }}',
+            country_of_upload: '{{ newVideo.country_of_upload.name }}',
+            country_of_upload_flag: '{{ newVideo.country_of_upload.flag }}',
+            id: '{{ newVideo.id }}',
+            skin_location: '{{ newVideo.video_skin }}',
+            }
+          },                
+        {% endfor %}
+        ]
+  };
+
+  geojson.features.forEach(function(marker) {
+    var marker_video_id      = "el" + marker.properties.id;
+    console.log('Added ' + marker.properties.title)
+    var location_skin = marker.properties.skin_location;
+    {% include 'skins/skin_selector.js' %}
+
+      var addmarker = new mapboxgl.Marker(marker_video_id)
+      .setLngLat(marker.geometry.coordinates)
+      .addTo(map);
+
+      currentMarkers.push(marker.properties.id);
+      console.log(currentMarkers)
+  });
+
+</script>
+
+{% else %}
+{% endif %}

@@ -5,13 +5,20 @@
 {% block title %}
 <title>Map - Latytube</title>
 <link rel="stylesheet" href="{% static 'css/global.css' %}">
+<script src='https://api.tiles.mapbox.com/mapbox-gl-js/v0.52.0/mapbox-gl.js'></script>
+<link href='https://api.tiles.mapbox.com/mapbox-gl-js/v0.52.0/mapbox-gl.css' rel='stylesheet' />
+
 {% endblock title %}    
 
 {% block wave %}
 
 
 <style>
-
+      body { margin:0; padding:0; }
+      body::-webkit-scrollbar {
+          display: none;
+      }
+      #map { position:absolute; top:0; bottom:0; width:100%; }
 
     .marker {
       background-size: cover;
@@ -112,6 +119,103 @@
     {% include 'home/toolbox/premiumTab.html' %}
     {% include 'home/toolbox/profileTab.html' %}
 </div>
+
+{% include 'home/updateVideos.html' %}
+
+<div id='map'></div>
+
+<script>
+  MapToken = 'pk.eyJ1Ijoid2VhdGhlciIsImEiOiJjamxncnYwMmYxYXgxM3BzNWEyNHUzbmhhIn0.UqrZwn6qTa6WJwdHjPVUfA' //WeatherChannel
+  mapStyle = "{% static 'json/mapStyle.json' %}"
+
+  mapboxgl.accessToken = MapToken;
+  var map = new mapboxgl.Map({
+    container: 'map',
+    style: mapStyle,        
+    center: [-37, 28], // starting position [lng, lat]
+    zoom: 3,
+    maxZoom: 8,
+    minZoom: 3,
+  });
+  map.dragRotate.disable();
+  map.touchZoomRotate.disableRotation();
+
+  var currentMarkers = []
+
+
+    var newBounds       = map.getBounds()
+    var NorthEastLat    = map.getBounds()._ne.lat
+    var NorthEastLng    = map.getBounds()._ne.lng
+    var SouthWestLat    = map.getBounds()._sw.lat
+    var SouthWestLng    = map.getBounds()._sw.lng
+    
+      $.ajax({
+        type: 'POST',
+        url: '/f/add/v/boundary',
+        data: {
+            'NELat' : NorthEastLat,
+            'NELng' : NorthEastLng,
+            'SWLat' : SouthWestLat,
+            'SWLng' : SouthWestLng,
+            'currentMarkers': currentMarkers,
+            'csrfmiddlewaretoken': $("input[name=csrfmiddlewaretoken]").val()
+        },
+        success: addVideosSuccess,
+    });
+
+    function addVideosSuccess(data, textStatus, jqXHR){
+        $('#addNewVideos').html(data);
+    }
+
+  </script>
+  
+  <script id="addNewVideos"></script>
+
+  <script>
+
+    function playvideo(videoId, coordinatesOfVideo, videoTitle) {
+      var videoMarker = document.getElementById(videoId + "-element");
+      var mediaVideo = $("#" + videoId).get(0);
+      map.flyTo({
+          center: coordinatesOfVideo,
+          speed: 0.2,
+          });
+      if (mediaVideo.paused) {
+          document.title = videoTitle;
+
+          var els = document.querySelectorAll('.markerZoomIn')
+
+          _removeClasses()
+
+          function _removeClasses() {
+              for (var i = 0; i < els.length; i++) {
+                  els[i].classList.remove('markerZoomIn')
+                  document.querySelectorAll('video').forEach(vid => vid.pause());
+              }
+          }
+              videoMarker.classList.remove('markerZoomOut');
+              videoMarker.classList.add('markerZoomIn');
+
+          mediaVideo.play();
+          
+          mediaVideo.ontimeupdate = function(){
+          var percentage = ( mediaVideo.currentTime / mediaVideo.duration ) * 100;
+              $("#progressbar" + videoId).css("width", percentage+"%");
+          };
+
+      } else {
+          mediaVideo.pause();
+
+          document.title = "Latytube";
+          var videoMarker = document.getElementById(videoId+ "-element");
+          videoMarker.classList.remove("markerZoomIn");
+          videoMarker.classList.add('markerZoomOut');
+      }
+  }
+
+
+</script>
+
 
 {% endblock content %}
 
