@@ -23,10 +23,10 @@
 		            {{ form.as_p }}
                 <p>By creating an account, you agree to our terms of service and privacy policies
                   Click <a href="#">here</a> to view our terms</p>
-	          <a style="width:100%" class="btn btn-action" href="{% url 'login' %}">Login</a>
+	          <a style="width:100%" class="btn btn-action" type="submit">Login</a>
 	          </form>
 	          <p style="margin-bottom:-1px;margin-top:10px;text-align:center">or</p>
-		            <button style="width:100%" class="btn btn-dark" type="submit">Signup</button>
+		            <button style="width:100%" class="btn btn-dark"  href="{% url 'signup' %}">Signup</button>
           </div>
         </div>
       </div>
