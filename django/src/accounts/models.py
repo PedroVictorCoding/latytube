@@ -62,11 +62,19 @@ class Account(AbstractBaseUser):
         return self.is_admin
 
 
+def generated_filename(instance, filename):
+    extension = filename.split('.')[-1]
+    generated = uuid.uuid4()
+    return '{}{}.{}'.format('videos/', str(generated), extension)
+
+
 class UserProfile(models.Model):
-    user = models.OneToOneField(Account, on_delete=models.CASCADE)
-    display_name = models.CharField(max_length=25)
-    bio = models.CharField(max_length=200)
-    image = models.ImageField(blank=True)
+    user            = models.OneToOneField(Account, on_delete=models.CASCADE)
+    display_name    = models.CharField(max_length=25)
+    bio             = models.CharField(blank=True, max_length=200)
+    image           = models.ImageField(blank=True, upload_to=generated_filename)
+    latitude        = models.FloatField(blank=True)
+    longitude       = models.FloatField(blank=True)
 
     def __str__(self):
         return self.user.username

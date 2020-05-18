@@ -23,8 +23,6 @@ def get_client_ip(request):
 
 @login_required()
 def map_view(request):
-    map_videos          = Video.objects.order_by('?')[:1]
-
     usertotalpoints     = points_awarded(request.user)
     userfollowers       = Follow.objects.followers(request.user)
     userfollowings      = Follow.objects.following(request.user)
@@ -45,7 +43,6 @@ def map_view(request):
         form                    = VideoForm()
         
     args = {
-        'map_videos': map_videos,
         'form': form, 
         'videos': user_videos,
         'amountfollowers': amountfollowers,

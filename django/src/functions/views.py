@@ -1,7 +1,7 @@
 from django.shortcuts import render, HttpResponseRedirect
 from django.db.models import Q
 from home.models import Video
-from accounts.models import Account
+from accounts.models import Account, UserProfile
 from friendship.models import Friend, Follow, Block
 
 def delete_video(request, video_id):
@@ -67,3 +67,14 @@ def video_in_boundary(request):
         newVideos = Video.objects.exclude(id__in=currentMarkers).filter(latitude__gte = SWLat, latitude__lte = NELat, longitude__gte = SWLng, longitude__lte = NELng).order_by('?')[:videoQuantity]
         args = {'newVideos': newVideos}
     return render(request, 'home/ajax/addVideos.html', args)
+
+def update_profile_image(request):
+    if request.method == "POST":
+        print("POST Request: " + request.POST)
+        newImage = request.POST['myformdata']
+        updatingImage = UserProfile.objects.get(user=request.user)
+        updatingImage.image = newImage
+        updatingImage.save()
+        updatedUserProfileInfo = UserProfile.objects.get(user=request.user)
+        args = {'updatedUserProfileInfo': updatedUserProfileInfo}
+    return render(request, 'home/ajax/profile_image_update.html', args)
