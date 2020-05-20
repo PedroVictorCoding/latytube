@@ -13,7 +13,7 @@
         <div class="card-header">Signup</div>
           <div class="card-body">
           {% if next %}
-            <form action="/signup/?next={{next}}" method="post" >
+            <form action="accounts/signup/?next={{next}}" method="post" >
           {%else%}
             <form action="/" method="post" >
           {% endif %}
