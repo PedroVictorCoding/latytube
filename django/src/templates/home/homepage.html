@@ -18,7 +18,10 @@
 
 <div class="computer-view" style="margin-top: -30vh;">
     {% if not user.is_authenticated %}
-    <a class="btn m-3" href="/accounts/login" style="background: white; position: absolute; top: 0; right: 0;">Sign Up</a>
+    <div class="mt-3 mr-3" style="position: absolute; top: 0; right: 0;">
+        <a class="btn btn-light" href="{% url 'signup' %}" >Sign Up</a>
+        <a class="btn btn-dark" href="{% url 'login' %}">Login</a>
+    </div>
     {% else %}
     
     {% endif %}

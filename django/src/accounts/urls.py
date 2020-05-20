@@ -9,6 +9,7 @@ from accounts.views import signup, profile2
 
 urlpatterns = [
     path('login/', LoginView.as_view(template_name="accounts/login.html"), name="login"),
+    path('logout/', LogoutView.as_view(template_name="accounts/logout.html"), name='logout'),
     path('signup/', signup, name="signup"),
     path('profile/', profile2, name="profile"),
     path('profile/<str:pk>/', profile2, name="profile"),
