@@ -52,10 +52,12 @@
 
             </script>
 
-        <input class="btn btn-action btn-lg btn-block mt-3" onclick=resetForm() type="submit" value="Upload"/>
+        <input class="btn btn-action btn-lg btn-block mt-3" type="submit" onclick="resetForm()" value="Upload"/>
         <script>
-            var form = document.getElementById("uploaderForm");
-            form.reset();   
+            function resetForm() {
+                document.getElementById('#uploaderForm').submit();
+                $("#uploaderForm")[0].reset();
+            }
         </script>
     </form>
 </div>
