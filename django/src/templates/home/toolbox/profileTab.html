@@ -8,20 +8,27 @@
                 margin-right: auto;
             }
         </style>
-        {% if userprofile.image %}
-            <img src="{{ userprofile.image }}" alt="" style="border-radius: 50%; width: 100px; height: 100px;">
-        {% else %}
-            <img type="file" id="" style="background-color: white; border-radius: 50%; width: 100px; height: 100px;">
-        {% endif %}
+        <div>
+            {% if userprofile.image %}
+                <img src="{{ MEDIA_URL }}{{ userprofile.image }}" alt="" style="border-radius: 50%; width: 100px; height: 100px;">
+            {% else %}
+                <img type="file" id="" style="background-color: white; border-radius: 50%; width: 100px; height: 100px;">
+            {% endif %}
+        </div>
 
+       
 
         <p>
             <!--<img src="" alt="ProfileImg"> <br>-->
             <span style="float:left"><b>Username:</b></span><span style="float:right">{{ user.username }}</span>
             <br>
+            <span style="float:left"><b>Display Name:</b></span><span style="float:right">{{ userprofile.display_name }}</span>
+            <br>
             <span style="float:left"><b>Email:</b></span><span style="float:right">{{ user.email }}</span>
             <br>
-
+            <span style="float:left"><b>Bio:</b></span><span style="float:right">{{ userprofile.bio }}</span>
+            <br>
+            <a class="btn btn-action" target="_blank" rel="noopener noreferrer" href="/accounts/update-profile">Update Your Profile</a>
             {% include 'home/friendships/friendships.html' %}
             
         </p>

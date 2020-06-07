@@ -4,6 +4,7 @@ from django.contrib.auth.models import User, AbstractBaseUser, BaseUserManager
 from django.conf import settings
 from django.dispatch import receiver
 from rest_framework.authtoken.models import Token
+import uuid
 
 class MyAccountManager(BaseUserManager):
     def create_user(self, email, username, password=None):
@@ -65,7 +66,7 @@ class Account(AbstractBaseUser):
 def generated_filename(instance, filename):
     extension = filename.split('.')[-1]
     generated = uuid.uuid4()
-    return '{}{}.{}'.format('videos/', str(generated), extension)
+    return '{}{}.{}'.format('profile-images/', str(generated), extension)
 
 
 class UserProfile(models.Model):

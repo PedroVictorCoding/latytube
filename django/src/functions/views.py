@@ -70,11 +70,12 @@ def video_in_boundary(request):
 
 def update_profile_image(request):
     if request.method == "POST":
-        print("POST Request: " + request.POST)
-        newImage = request.POST['myformdata']
+        print("POST Request: " + str(request.POST))
+        newImage = request.POST.getlist('image')
         updatingImage = UserProfile.objects.get(user=request.user)
         updatingImage.image = newImage
         updatingImage.save()
         updatedUserProfileInfo = UserProfile.objects.get(user=request.user)
         args = {'updatedUserProfileInfo': updatedUserProfileInfo}
     return render(request, 'home/ajax/profile_image_update.html', args)
+

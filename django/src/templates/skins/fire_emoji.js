@@ -1,12 +1,17 @@
-var marker_video_id = document.createElement('div');
+var marker_video_id = document.createElement("div");
+marker_video_id.id = marker.properties.id + "-marker"
 marker_video_id.className = "video-container marker";
-marker_video_id.id = marker.properties.id + "-element";
-marker_video_id.setAttribute("onclick","playvideo(" + marker.properties.id + ", [" + marker.geometry.coordinates + "], '" + marker.properties.title + "');");
+
+var video_box = document.createElement('div');
+video_box.className = "video-container";
+video_box.id = marker.properties.id + "-element";
+video_box.setAttribute("onclick","playvideo(" + marker.properties.id + ", [" + marker.geometry.coordinates + "], '" + marker.properties.title + "');");
+marker_video_id.appendChild(video_box);
 
 var loader_v = document.createElement('div');
 loader_v.className = 'lds-ripple';
 loader_v.style = "width:100px; height:100px; position:absolute;"
-marker_video_id.appendChild(loader_v);
+video_box.appendChild(loader_v);
 
 var video_v = document.createElement('video');
 video_v.id = marker.properties.id;
@@ -15,17 +20,17 @@ video_v.src = marker.properties.videofile;
 video_v.href = "/feed/v/" + marker.properties.id;
 video_v.loop = "true";
 video_v.className = '';
-marker_video_id.appendChild(video_v);
+video_box.appendChild(video_v);
 
 var video_shadow = document.createElement("div");
 video_shadow.className = "video-overlay"
 video_shadow.style = "bottom:0; left:0; width:100%; height:100%; border-radius:10px; background: linear-gradient(180deg, rgba(0, 0, 0, 0) 36.98%, rgba(0, 0, 0, 0.21) 52.08%, #121212 98.44%);"
-marker_video_id.appendChild(video_shadow);
+video_box.appendChild(video_shadow);
 
 video_progress_bar_div = document.createElement('div')
 video_progress_bar_div.id = "custom-seekbar"
 video_progress_bar_div.style = ""
-marker_video_id.appendChild(video_progress_bar_div)
+video_box.appendChild(video_progress_bar_div)
 
 video_progress_bar = document.createElement("span");
 video_progress_bar.style = 'background: rgb(196,0,0);background: -moz-linear-gradient(90deg, rgba(196,0,0,1) 0%, rgba(205,75,0,1) 42%, rgba(255,188,0,1) 100%);background: -webkit-linear-gradient(90deg, rgba(196,0,0,1) 0%, rgba(205,75,0,1) 42%, rgba(255,188,0,1) 100%);background: linear-gradient(90deg, rgba(196,0,0,1) 0%, rgba(205,75,0,1) 42%, rgba(255,188,0,1) 100%);filter: progid:DXImageTransform.Microsoft.gradient(startColorstr="#c40000",endColorstr="#ffbc00",GradientType=1);'
@@ -35,15 +40,61 @@ video_progress_bar_div.appendChild(video_progress_bar)
 var video_title = document.createElement("p");
 video_title.innerHTML = marker.properties.title;
 video_title.style = "position: absolute; bottom: 8px; left:7px; position:absolute; color:#fff; font-weight:bold"
-marker_video_id.appendChild(video_title);
+video_box.appendChild(video_title);
 
 var video_author = document.createElement("p");
 video_author.innerHTML = marker.properties.author;
 video_author.style = "bottom: -10px; left:7px; position:absolute; color:#fff;"
-marker_video_id.appendChild(video_author);
-
+video_box.appendChild(video_author);
 
 var fire_emoji = document.createElement("p");
-fire_emoji.style = "position: absolute; top: -10px; right: -20px; font-size: 50px";
+fire_emoji.style = "position: absolute; top: -10px; left: -20px; font-size: 50px";
 fire_emoji.innerHTML = "🔥";
-marker_video_id.appendChild(fire_emoji);
+video_box.appendChild(fire_emoji);
+
+var hidden_deck_div = document.createElement("div");
+hidden_deck_div.style = "max-width:22.5vw; max-height:80vh;";
+marker_video_id.appendChild(hidden_deck_div);
+
+var hidden_deck = document.createElement("div");
+hidden_deck.style = "width:100%; height: 100%; position:absolute; top:0; left: 100%; border-radius: 10px; display:none; margin-left: 10px";
+hidden_deck.id = marker.properties.id + "-hiddenDeck";
+hidden_deck.className = "bg-dark";
+hidden_deck_div.appendChild(hidden_deck);
+
+var views_box = document.createElement("p");
+views_box.className = "btn btn-dark btn-lg";
+views_box.style = "position: absolute; left: -100px; bottom: 50px;"
+views_box.innerText = "👍 " + marker.properties.view_count;
+hidden_deck.appendChild(views_box);
+
+var likes_box = document.createElement("p");
+likes_box.className = "btn btn-dark btn-lg";
+likes_box.style = "position: absolute; left: -100px; bottom: 0;"
+likes_box.innerText = "👀 " + marker.properties.like_count;
+hidden_deck.appendChild(likes_box);
+
+var exit_button = document.createElement("button");
+exit_button.style = "position:absolute; right:0; margin-right: 10px; margin-top:10px";
+exit_button.className = "btn btn-action";
+exit_button.innerHTML = "Hide Video";
+exit_button.setAttribute("onclick", "hideVideo(" + marker.properties.id + ")");
+hidden_deck.appendChild(exit_button);
+
+var create_comment = document.createElement("div");
+create_comment.className = "input-group";
+create_comment.style = "position:absolute; padding-left: 20px; padding-right: 20px; bottom: 10px"
+hidden_deck.appendChild(create_comment)
+
+var comments_input = document.createElement("input");
+comments_input.style = "width:72.5%; position: absolute; left:10px; bottom: 5px"
+comments_input.className = "btn btn-lg text-left btn-outline-dark"
+comments_input.placeholder = "Comment";
+create_comment.appendChild(comments_input);
+
+var submit_comment = document.createElement("button");
+submit_comment.innerHTML = "Send";
+submit_comment.style = "width: 22.5%; position: absolute; right:5px; bottom: 5px"
+submit_comment.className = "btn btn-action btn-lg rounded";
+create_comment.appendChild(submit_comment);
+

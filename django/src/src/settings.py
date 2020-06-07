@@ -37,7 +37,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'django.contrib.sites',
+    ##'django.contrib.sites',
 
     'accounts',
     'home',
@@ -46,9 +46,7 @@ INSTALLED_APPS = [
     'achievements',
 
 
-    "djstripe",
     'pinax.badges',
-    'pinax.stripe',
     "bootstrapform",
     "pinax.templates",
     'pinax.points',
@@ -57,33 +55,7 @@ INSTALLED_APPS = [
     'friendship',
     'django_countries',
 ]
-
-### PINAX INFORMATION ###
-
-## Stripe
-SITE_ID = 1
-PINAX_STRIPE_PUBLIC_KEY = os.environ.get("STRIPE_PUBLIC_KEY", "pk_test_cATiC4SlofkYX7iaQNY6syym001LEhLsHK")
-PINAX_STRIPE_SECRET_KEY = os.environ.get("STRIPE_SECRET_KEY", "sk_test_ifyNfySknPGCDa7fx1KB0TMB00pOz5mMyS")
-
-PINAX_STRIPE_DEFAULT_PLAN = "free"
-PINAX_STRIPE_SUBSCRIPTION_REQUIRED_REDIRECT = '/'
-
-## Badges
-
-### END OF PINAX INFORMATION ###
-
-### DJ Stripe ###
-
-STRIPE_API_VERSION = '2019-09-09'
-
-STRIPE_LIVE_PUBLIC_KEY = os.environ.get("STRIPE_LIVE_PUBLIC_KEY", "<your publishable key>")
-STRIPE_LIVE_SECRET_KEY = os.environ.get("STRIPE_LIVE_SECRET_KEY", "<your secret key>")
-STRIPE_TEST_PUBLIC_KEY = os.environ.get("STRIPE_TEST_PUBLIC_KEY", "pk_test_cATiC4SlofkYX7iaQNY6syym001LEhLsHK")
-STRIPE_TEST_SECRET_KEY = os.environ.get("STRIPE_TEST_SECRET_KEY", "sk_test_ifyNfySknPGCDa7fx1KB0TMB00pOz5mMyS")
-STRIPE_LIVE_MODE = False  # Change to True in production
-DJSTRIPE_WEBHOOK_SECRET = "whsec_xxx"  # Get it from the section in the Stripe dashboard where you added the webhook endpoint
-
-### DJ Stripe ###
+ 
 
 
 REST_FRAMEWORK = {
@@ -106,8 +78,6 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-
-    'pinax.stripe.middleware.ActiveSubscriptionMiddleware',
 ]
 
 ROOT_URLCONF = 'src.urls'

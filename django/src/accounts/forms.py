@@ -32,14 +32,15 @@ class SignupForm(UserCreationForm):
 
 
 class ProfileForm(forms.ModelForm):
-    display_name = forms.CharField(required=True)
+    display_name = forms.CharField(required=False)
     bio = forms.CharField(required=False, widget=forms.Textarea(attrs={'rows': '2'}))
-    #image = forms.ImageField()
+    image = forms.FileField(required=False)
 
     class Meta:
         model = UserProfile
         fields = (
             'display_name',
             'bio',
-            #'image',
+            'image',
         )
+

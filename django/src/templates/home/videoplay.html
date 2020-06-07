@@ -1,6 +1,6 @@
 <script>
 function playvideo(videoId, coordinatesOfVideo, videoTitle) {
-    var videoMarker = document.getElementById(videoId + "-element");
+    var videoMarker = document.getElementById(videoId + "-marker");
     var mediaVideo = $("#" + videoId).get(0);
     map.flyTo({
         center: coordinatesOfVideo,
@@ -15,12 +15,18 @@ function playvideo(videoId, coordinatesOfVideo, videoTitle) {
 
         function _removeClasses() {
             for (var i = 0; i < els.length; i++) {
+                
                 els[i].classList.remove('markerZoomIn')
                 document.querySelectorAll('video').forEach(vid => vid.pause());
+
+         
             }
         }
             videoMarker.classList.remove('markerZoomOut');
             videoMarker.classList.add('markerZoomIn');
+            
+            
+        
 
         mediaVideo.play();
         
@@ -29,13 +35,28 @@ function playvideo(videoId, coordinatesOfVideo, videoTitle) {
             $("#progressbar" + videoId).css("width", percentage+"%");
         };
 
+        if ($( "#" + videoId + "-marker" ).hasClass( "markerZoomIn" )) {
+            document.getElementById(videoId + "-hiddenDeck").style.display = 'block';
+        }
+        
+        if ($( "#" + videoId + "-marker" ).hasClass( "markerZoomOut" )) {
+            document.getElementById(videoId + "-hiddenDeck").style.display = 'none';
+        }
+
     } else {
         mediaVideo.pause();
 
+
         document.title = "Latytube";
-        var videoMarker = document.getElementById(videoId+ "-element");
+        var videoMarker = document.getElementById(videoId+ "-marker");
         videoMarker.classList.remove("markerZoomIn");
         videoMarker.classList.add('markerZoomOut');
+        if ($( "#" + videoId + "-marker" ).hasClass( "markerZoomIn" )) {
+            document.getElementById(videoId + "-hiddenDeck").style.display = 'block';
+        }
+        if ($( "#" + videoId + "-marker" ).hasClass( "markerZoomOut" )) {
+            document.getElementById(videoId + "-hiddenDeck").style.display = 'none';
+        }
     }
 }
 </script>
