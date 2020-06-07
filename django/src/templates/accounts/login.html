@@ -13,14 +13,14 @@
           <div class="card-body">{% if next %}
             <form action="/accounts/login/?next={{next}}" method="post" >
             {%else%}
-            <form action="/" method="post" >
+            <form action="/map" method="post" >
             {% endif %}
 		            {% csrf_token %}
 		            {{ form.as_p }}
             <button style="width:100%" class="btn btn-action" type="submit">Login</button>
 	          </form>
 	          <p style="margin-bottom:-1px;margin-top:10px;text-align:center">or</p>
-	          <a style="width:100%" class="btn btn-dark" href="{% url 'login' %}">Signup</a>
+	          <a style="width:100%" class="btn btn-dark" href="{% url 'signup' %}">Signup</a>
           </div>
         </div>
       </div>
