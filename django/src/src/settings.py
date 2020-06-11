@@ -48,7 +48,6 @@ INSTALLED_APPS = [
 
     'pinax.badges',
     "bootstrapform",
-    "pinax.templates",
     'pinax.points',
     'rest_framework',
     'rest_framework.authtoken',
@@ -82,7 +81,7 @@ MIDDLEWARE = [
 
 ROOT_URLCONF = 'src.urls'
 
-TEMPLATES_PATH = BASE_DIR + '/templates'
+TEMPLATES_PATH = os.path.join(BASE_DIR, 'templates'),
 
 TEMPLATES = [
     {
