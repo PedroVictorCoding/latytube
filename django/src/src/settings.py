@@ -82,7 +82,7 @@ MIDDLEWARE = [
 
 ROOT_URLCONF = 'src.urls'
 
-TEMPLATES_PATH = BASE_DIR + '/templates'
+TEMPLATES_PATH = os.path.join(BASE_DIR, 'templates'),
 
 TEMPLATES = [
     {
