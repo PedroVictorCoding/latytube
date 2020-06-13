@@ -23,9 +23,18 @@ def signup(request):
         if form.is_valid():
             form.save()
             username = form.cleaned_data.get('username')
+            email = form.cleaned_data.get('email')
+            print(email)
             raw_password = form.cleaned_data.get('password1')
             user = authenticate(username=username, password=raw_password)
             login(request, user)
+            send_mail(
+                'Welcome to Latytube',
+                "You have just joined a new interesting platform!\nIn Latytube we thrive to create a world wide community, about people and cultures!\nLet's explore!",
+                'pedro.luis.almeida.victor@gmail.com',
+                [email],
+                fail_silently=False,
+            )
             return HttpResponseRedirect('/map')
     else:
         form = SignupForm()

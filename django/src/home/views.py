@@ -1,4 +1,4 @@
-from django.shortcuts import render, HttpResponse
+from django.shortcuts import render, HttpResponse, HttpResponseRedirect
 from .models import Video
 from .forms import VideoForm
 from accounts.models import UserProfile, Account
@@ -38,9 +38,9 @@ def map_view(request):
         video_upload.author     = request.user
         video_upload.like_count = 0
         video_upload.view_count = 0
-        #video_upload.location  = LonlatIPVal
         form.save()
         form                    = VideoForm()
+        return HttpResponseRedirect('/map/')
         
     args = {
         'form': form, 
