@@ -3,6 +3,7 @@ from django.db.models import Q
 from home.models import Video
 from accounts.models import Account, UserProfile
 from friendship.models import Friend, Follow, Block
+from functions.models import PostVisualization
 
 def delete_video(request, video_id):
     video_to_delete = Video.objects.get(id=video_id)
@@ -79,3 +80,10 @@ def update_profile_image(request):
         args = {'updatedUserProfileInfo': updatedUserProfileInfo}
     return render(request, 'home/ajax/profile_image_update.html', args)
 
+def post_visualization(request, videopk, fromUser):
+    if request.method == 'POST':
+        video_fk = Video.objects.get(pk=videopk)
+        fromUser = Account.object.get(username=fromUser)
+        new_view = PostVisualization(post_id=video_fk, from_user=fromUser)
+        new_view.save()
+    return render(request, 'functions/empty.html')

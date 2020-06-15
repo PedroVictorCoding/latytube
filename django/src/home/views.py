@@ -3,7 +3,6 @@ from .models import Video
 from .forms import VideoForm
 from accounts.models import UserProfile, Account
 import numpy as np
-from pinax.points.models import points_awarded, award_points
 from django.contrib.auth.decorators import login_required
 from friendship.models import Friend, Follow, Block
 import random
@@ -23,7 +22,6 @@ def get_client_ip(request):
 
 @login_required()
 def map_view(request):
-    usertotalpoints     = points_awarded(request.user)
     userfollowers       = Follow.objects.followers(request.user)
     userfollowings      = Follow.objects.following(request.user)
     amountfollowers     = len(userfollowers)

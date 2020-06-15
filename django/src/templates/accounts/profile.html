@@ -1,6 +1,5 @@
 {% extends 'base.html' %}
 {% load static %}
-{% load pinax_points_tags %}
     
 
 
@@ -25,8 +24,6 @@
                 <div class="col">Followers: </div>
                 <div class="col">Following: </div>
             </div>
-                {% points_for_object user as points %}
-    <div class="user-points">{{ points }}</div>
 
         </h3>
     </div>
