@@ -10,7 +10,6 @@ contextlib2==0.6.0
 crayons==0.3.0
 distlib==0.3.0
 distro==1.4.0
-dj-stripe==2.3.0
 Django==3.0.5
 django-appconf==1.0.4
 django-bootstrap-form==3.4
@@ -29,11 +28,7 @@ numpy==1.18.3
 packaging==20.3
 pep517==0.8.2
 Pillow==7.1.1
-pinax-badges==2.0.3
 pinax-cli==1.1.4
-pinax-points==1.0
-pinax-stripe==4.4.0
-pinax-templates==2.0.6
 progress==1.5
 pyparsing==2.4.6
 pytoml==0.1.21

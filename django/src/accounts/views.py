@@ -27,7 +27,7 @@ def signup(request):
             print(email)
             raw_password = form.cleaned_data.get('password1')
             user = authenticate(username=username, password=raw_password)
-            login(request, user)
+            login(request, user, backend='django.contrib.auth.backends.ModelBackend')
             send_mail(
                 'Welcome to Latytube',
                 "You have just joined a new interesting platform!\nIn Latytube we thrive to create a world wide community, about people and cultures!\nLet's explore!",

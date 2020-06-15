@@ -46,9 +46,6 @@ INSTALLED_APPS = [
     'achievements',
 
 
-    'pinax.badges',
-    "bootstrapform",
-    'pinax.points',
     'rest_framework',
     'rest_framework.authtoken',
     'friendship',
@@ -66,7 +63,6 @@ REST_FRAMEWORK = {
     ]
 }
 
-CORS_ORIGIN_ALLOW_ALL = True
 
 MIDDLEWARE = [
     'corsheaders.middleware.CorsMiddleware',
@@ -153,14 +149,12 @@ LOGOUT_REDIRECT_URL = '/'
 # https://docs.djangoproject.com/en/3.0/howto/static-files/
 
 MEDIA_URL = '/media/'
-MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media/')
 
 STATIC_URL = '/static/'
 
-#STATIC_ROOT = os.path.join(BASE_DIR, 'static')
-
 STATICFILES_DIRS = [
-    os.path.join(BASE_DIR, 'static')
+        os.path.join(BASE_DIR, 'static'),
 ]
 
 
