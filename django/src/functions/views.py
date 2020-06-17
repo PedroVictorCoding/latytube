@@ -3,7 +3,7 @@ from django.db.models import Q
 from home.models import Video
 from accounts.models import Account, UserProfile
 from friendship.models import Friend, Follow, Block
-from functions.models import PostVisualization
+from functions.models import PostVisualization, PostLike
 
 def delete_video(request, video_id):
     video_to_delete = Video.objects.get(id=video_id)
@@ -80,10 +80,30 @@ def update_profile_image(request):
         args = {'updatedUserProfileInfo': updatedUserProfileInfo}
     return render(request, 'home/ajax/profile_image_update.html', args)
 
-def post_visualization(request, videopk, fromUser):
+def post_visualization(request, videopk):
     if request.method == 'POST':
         video_fk = Video.objects.get(pk=videopk)
-        fromUser = Account.object.get(username=fromUser)
-        new_view = PostVisualization(post_id=video_fk, from_user=fromUser)
-        new_view.save()
+        fromUser = Account.objects.get(email=request.user)
+        try:
+            PostVisualization.objects.get(post_id=video_fk, from_user=fromUser)
+        except PostVisualization.DoesNotExist:
+            new_view = PostVisualization(post_id=video_fk, from_user=fromUser)
+            new_view.save()
+            new_view_count = Video.objects.get(id=video_fk.id)
+            new_view_count.view_count += 1
+            new_view_count.save()
+    return render(request, 'functions/empty.html')
+
+def post_like(request, videopk):
+    if request.method == 'POST':
+        video_fk = Video.objects.get(pk=videopk)
+        fromUser = Account.objects.get(email=request.user)
+        try:
+            PostLike.objects.get(post_id=video_fk, from_user=fromUser)
+        except PostLike.DoesNotExist:
+            new_like = PostLike(post_id=video_fk, from_user=fromUser)
+            new_like.save()
+            new_like_count = Video.objects.get(id=video_fk.id)
+            new_like_count.like_count += 1
+            new_like_count.save()
     return render(request, 'functions/empty.html')

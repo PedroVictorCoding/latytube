@@ -1,3 +1,5 @@
 from django.contrib import admin
+from .models import PostVisualization, PostLike
 
-# Register your models here.
+admin.site.register(PostVisualization)
+admin.site.register(PostLike)
