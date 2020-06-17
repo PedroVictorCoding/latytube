@@ -40,3 +40,6 @@ class Video(models.Model):
         return self.author.username
 
     
+class VideoComments(models.Model):
+    video_id = models.ForeignKey(Video, on_delete=models.CASCADE)
+    message = models.CharField(max_length=50)

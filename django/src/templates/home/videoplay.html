@@ -6,6 +6,9 @@ function playvideo(videoId, coordinatesOfVideo, videoTitle) {
         center: coordinatesOfVideo,
         speed: 0.2,
         });
+
+
+
     if (mediaVideo.paused) {
         document.title = videoTitle;
 
@@ -15,16 +18,31 @@ function playvideo(videoId, coordinatesOfVideo, videoTitle) {
 
         function _removeClasses() {
             for (var i = 0; i < els.length; i++) {
-                
-                els[i].classList.remove('markerZoomIn')
+                console.log(els[i].id.replace('-marker','-hiddenDeck'));
+                var deckToHide = els[i].id.replace('-marker', '-hiddenDeck');
+                document.getElementById(deckToHide).style.display = "none";
+                els[i].classList.remove('markerZoomIn');
                 document.querySelectorAll('video').forEach(vid => vid.pause());
 
          
             }
         }
-            videoMarker.classList.remove('markerZoomOut');
-            videoMarker.classList.add('markerZoomIn');
-            
+
+        videoMarker.classList.remove('markerZoomOut');
+        videoMarker.classList.add('markerZoomIn');
+
+        $.ajax({
+        type: 'POST',
+        url: '/f/video/' + videoMarker.id.replace("-marker", "") + '/visualization',
+        data: {
+            'csrfmiddlewaretoken': $("input[name=csrfmiddlewaretoken]").val()
+        },
+        success: videoWasViewed,
+    });
+
+    function videoWasViewed(data, textStatus, jqXHR){
+        //Maybe return new views value
+    }            
             
         
 
@@ -59,4 +77,15 @@ function playvideo(videoId, coordinatesOfVideo, videoTitle) {
         }
     }
 }
+
+    function likevideo(liked_video_id){
+        $.ajax({
+            type: 'POST',
+            url: '/f/video/' + liked_video_id + '/like',
+            data: {
+                'csrfmiddlewaretoken': $("input[name=csrfmiddlewaretoken]").val()
+            },
+            success: console.log,
+        });
+    }
 </script>
