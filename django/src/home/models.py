@@ -41,5 +41,7 @@ class Video(models.Model):
 
     
 class VideoComments(models.Model):
+    author = models.ForeignKey(Account, on_delete=models.CASCADE)
     video_id = models.ForeignKey(Video, on_delete=models.CASCADE)
-    message = models.CharField(max_length=50)
+    message = models.CharField(max_length=150)
+    timestamp = models.DateTimeField(auto_now_add=True)

@@ -95,26 +95,34 @@ likes_box.innerText = "👍 " + marker.properties.like_count;
 hidden_deck.appendChild(likes_box);
 
 var exit_button = document.createElement("button");
-exit_button.style = "position:absolute; right:0; margin-right: 10px; margin-top:10px";
+exit_button.style = "position:absolute; right:0; margin-right: 2.5%; margin-top:10px";
 exit_button.className = "btn btn-action";
 exit_button.innerHTML = "Hide Video";
 exit_button.setAttribute("onclick", "hideVideo(" + marker.properties.id + ")");
 hidden_deck.appendChild(exit_button);
 
+var comments_box = document.createElement("div");
+comments_box.id = marker.properties.id + "-comments";
+comments_box.style = "width:95%; height:85%; margin-left:2.5%; margin-top:12%; cursor: grab; cursor : -o-grab; cursor : -moz-grab; cursor : -webkit-grab; overflow-y: auto;"
+comments_box.className = "rounded"
+hidden_deck.appendChild(comments_box);
+
 var create_comment = document.createElement("div");
 create_comment.className = "input-group";
-create_comment.style = "position:absolute; padding-left: 20px; padding-right: 20px; bottom: 10px"
+create_comment.style = "position:absolute; width:95%; margin-left: 2.5%; margin-right: 2.5%; bottom: 10px"
 hidden_deck.appendChild(create_comment)
 
 var comments_input = document.createElement("input");
-comments_input.style = "width:72.5%; position: absolute; left:10px; bottom: 5px"
-comments_input.className = "btn btn-lg text-left btn-outline-dark"
+comments_input.id = marker.properties.id + "-newcomment"
+comments_input.style = "width:72.5%; position: absolute;  bottom: 5px;";
+comments_input.className = "btn btn-lg text-left btn-outline-light";
 comments_input.placeholder = "Comment";
+comments_input.setAttribute("maxlength", "150")
 create_comment.appendChild(comments_input);
 
 var submit_comment = document.createElement("button");
+submit_comment.id = marker.properties.id + "-newcommentsubmit"
 submit_comment.innerHTML = "Send";
-submit_comment.style = "width: 22.5%; position: absolute; right:5px; bottom: 5px"
-submit_comment.className = "btn btn-action btn-lg rounded";
+submit_comment.style = 'width: 22.5%; position: absolute; bottom: 5px; right:0';
+submit_comment.className = "btn btn-lg btn-action text-white rounded";
 create_comment.appendChild(submit_comment);
-
