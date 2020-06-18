@@ -11,3 +11,16 @@
     
     {% endfor %}
 </div>
+
+<script>
+
+    $('#'+ {{ video_id }} + '-views').html("👀 " + {{ video_views }});
+    $('#'+ {{ video_id }} + '-like').html("👍 " + {{ video_likes }});
+
+    var isLiked = "{{ video_liked}}";
+
+    if (isLiked == "True") {
+        $('#'+ {{ video_id }} + '-like').attr('class', 'btn btn-light btn-lg');
+    } else {}
+
+</script>
