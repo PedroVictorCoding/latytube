@@ -108,10 +108,26 @@ def post_like(request, videopk):
             new_like_count.save()
     return render(request, 'functions/empty.html')
 
-def get_post_comment(request, videopk):
+def get_post_info(request, videopk):
     if request.method == 'POST':
         video_comments = VideoComments.objects.filter(video_id=videopk)
-    return render(request, 'functions/comments_box.html', {'video_comments': video_comments})
+        video_info = Video.objects.get(id=videopk)
+        video_likes = video_info.like_count
+        video_views = video_info.view_count
+        try:
+            PostLike.objects.get(post_id=videopk, from_user=request.user)
+            video_liked = "True"
+        except:
+            video_liked = "False"
+    return render(request, 'functions/comments_box.html', 
+        {
+            'video_id': videopk,
+            'video_comments': video_comments,
+            'video_likes': video_likes,
+            'video_views': video_views,
+            'video_liked': video_liked,
+        }
+    )
 
 
 def post_comment(request, videopk):

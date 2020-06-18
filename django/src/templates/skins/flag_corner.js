@@ -64,6 +64,7 @@ hidden_deck.className = "bg-dark";
 hidden_deck_div.appendChild(hidden_deck);
 
 var views_box = document.createElement("p");
+views_box.id = marker.properties.id + "-views"
 views_box.className = "btn btn-dark btn-lg";
 views_box.style = "position: absolute; left: -100px; bottom: 50px;"
 views_box.innerText = "👀 " + marker.properties.view_count;
@@ -73,7 +74,6 @@ var likes_box = document.createElement("p");
 likes_box.id = marker.properties.id + "-like"
 likes_box.className = "btn btn-dark btn-lg";
 likes_box.style = "position: absolute; left: -100px; bottom: 0;";
-likes_box.setAttribute("onclick", "likevideo(" + marker.properties.id + ")");
 likes_box.innerText = "👍 " + marker.properties.like_count;
 hidden_deck.appendChild(likes_box);
 

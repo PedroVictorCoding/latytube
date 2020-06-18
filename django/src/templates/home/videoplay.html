@@ -8,6 +8,30 @@ function playvideo(videoId, coordinatesOfVideo, videoTitle) {
         });
 
 
+    $('#'+ videoId + '-views').click(function() {
+        retrieveCommentsLikesViews()
+    });
+    $('#'+ videoId + '-like').click(function() {
+        retrieveCommentsLikesViews()
+    });
+
+    retrieveCommentsLikesViews()
+    function retrieveCommentsLikesViews(){
+        $.ajax({
+            type: 'POST',
+            url: '/f/video/' + videoMarker.id.replace("-marker", "") + '/get-comments-likes-views',
+            data: {
+                'csrfmiddlewaretoken': $("input[name=csrfmiddlewaretoken]").val()
+            },
+            success: addCommentsLikesViews,
+        });
+
+        function addCommentsLikesViews(data, textStatus, jqXHR){
+            $('#'+ videoId + '-comments').html(data);
+        }
+    }
+
+
 
     if (mediaVideo.paused) {
         document.title = videoTitle;
@@ -27,35 +51,26 @@ function playvideo(videoId, coordinatesOfVideo, videoTitle) {
             }
         }
 
-        retrieveComments()
-        function retrieveComments(){
-            $.ajax({
-                type: 'POST',
-                url: '/f/video/' + videoMarker.id.replace("-marker", "") + '/get_comment',
-                data: {
-                    'csrfmiddlewaretoken': $("input[name=csrfmiddlewaretoken]").val()
-                },
-                success: addComments,
-            });
 
-            function addComments(data, textStatus, jqXHR){
-                $('#'+ videoId + '-comments').html(data);
-            }
-        }
 
         $('#' + videoId + '-newcommentsubmit').click(function(){
-            $.ajax({
-                type: 'POST',
-                url: '/f/video/' + videoMarker.id.replace("-marker", "") + '/comment',
-                data: {
-                    'comments_message': $('#'+ videoId + '-newcomment').val(),
-                    'csrfmiddlewaretoken': $("input[name=csrfmiddlewaretoken]").val()
-                },
-                success: addingCommentSuccessful,
-            });
-            function addingCommentSuccessful(){
-                $('#'+ videoId + '-newcomment').val("");
-                retrieveComments()
+            var valueinput = $('#' + videoId + '-newcomment').val();
+            if ( valueinput.length > 0){
+                if ( $.trim( valueinput ) !== '' ){
+                    $.ajax({
+                        type: 'POST',
+                        url: '/f/video/' + videoMarker.id.replace("-marker", "") + '/comment',
+                        data: {
+                            'comments_message': $('#'+ videoId + '-newcomment').val(),
+                            'csrfmiddlewaretoken': $("input[name=csrfmiddlewaretoken]").val()
+                        },
+                        success: addingCommentSuccessful,
+                    });
+                    function addingCommentSuccessful(){
+                        $('#'+ videoId + '-newcomment').val("");
+                        retrieveCommentsLikesViews()
+                    }
+                }
             }
         });
 
@@ -120,4 +135,9 @@ function playvideo(videoId, coordinatesOfVideo, videoTitle) {
             success: console.log,
         });
     }
+
+
+      
+
+
 </script>
