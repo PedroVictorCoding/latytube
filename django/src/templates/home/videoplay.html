@@ -11,7 +11,6 @@ function playvideo(videoId, coordinatesOfVideo, videoTitle) {
 
     if (mediaVideo.paused) {
         document.title = videoTitle;
-
         var els = document.querySelectorAll('.markerZoomIn')
 
         _removeClasses()
@@ -27,6 +26,39 @@ function playvideo(videoId, coordinatesOfVideo, videoTitle) {
          
             }
         }
+
+        retrieveComments()
+        function retrieveComments(){
+            $.ajax({
+                type: 'POST',
+                url: '/f/video/' + videoMarker.id.replace("-marker", "") + '/get_comment',
+                data: {
+                    'csrfmiddlewaretoken': $("input[name=csrfmiddlewaretoken]").val()
+                },
+                success: addComments,
+            });
+
+            function addComments(data, textStatus, jqXHR){
+                $('#'+ videoId + '-comments').html(data);
+            }
+        }
+
+        $('#' + videoId + '-newcommentsubmit').click(function(){
+            $.ajax({
+                type: 'POST',
+                url: '/f/video/' + videoMarker.id.replace("-marker", "") + '/comment',
+                data: {
+                    'comments_message': $('#'+ videoId + '-newcomment').val(),
+                    'csrfmiddlewaretoken': $("input[name=csrfmiddlewaretoken]").val()
+                },
+                success: addingCommentSuccessful,
+            });
+            function addingCommentSuccessful(){
+                $('#'+ videoId + '-newcomment').val("");
+                retrieveComments()
+            }
+        });
+
 
         videoMarker.classList.remove('markerZoomOut');
         videoMarker.classList.add('markerZoomIn');

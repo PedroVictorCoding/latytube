@@ -1,6 +1,6 @@
 from django.shortcuts import render, HttpResponseRedirect
 from django.db.models import Q
-from home.models import Video
+from home.models import Video, VideoComments
 from accounts.models import Account, UserProfile
 from friendship.models import Friend, Follow, Block
 from functions.models import PostVisualization, PostLike
@@ -106,4 +106,17 @@ def post_like(request, videopk):
             new_like_count = Video.objects.get(id=video_fk.id)
             new_like_count.like_count += 1
             new_like_count.save()
+    return render(request, 'functions/empty.html')
+
+def get_post_comment(request, videopk):
+    if request.method == 'POST':
+        video_comments = VideoComments.objects.filter(video_id=videopk)
+    return render(request, 'functions/comments_box.html', {'video_comments': video_comments})
+
+
+def post_comment(request, videopk):
+    if request.method == 'POST':
+        video_obj = Video.objects.get(id=videopk)
+        add_new_comment = VideoComments(video_id=video_obj, author=request.user, message=request.POST['comments_message'])
+        add_new_comment.save()
     return render(request, 'functions/empty.html')
