@@ -25,7 +25,7 @@ SECRET_KEY = '%n=phqu-31(10)dj=+jm%9=u!xc!be*31od0y@4!42-+2par0('
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
 
-ALLOWED_HOSTS = ["www.notatish.com"]
+ALLOWED_HOSTS = ["www.notatish.com", "pedromusk.pythonanywhere.com"]
 
 
 # Application definition
