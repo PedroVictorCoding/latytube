@@ -22,11 +22,10 @@ def signup(request):
         form = SignupForm(request.POST)
         if form.is_valid():
             form.save()
-            username = form.cleaned_data.get('username')
+            usernamformform.cleaned_data.get('username')
             email = form.cleaned_data.get('email')
-            print(email)
-            raw_password = form.cleaned_data.get('password1')
-            user = authenticate(username=username, password=raw_password)
+            raw_password = user.cleaned_data.get('password1')
+            user.save()
             login(request, user, backend='django.contrib.auth.backends.ModelBackend')
             send_mail(
                 'Welcome to Latytube',
@@ -93,3 +92,5 @@ def profile_updater(request):
     else:
         context= {'form': form, 'error': 'The form was not updated successfully. Please enter in a title and content'}
         return render(request,'accounts/profile_updater.html' , context)
+
+
