@@ -47,19 +47,18 @@ def signup(request):
                 # method will generate a hash value with user related data
                 'token': account_activation_token.make_token(user),
             })
-            html_message = render_to_string('accounts/activation_request_html.html', {
-                'user': user,
-                'domain': current_site.domain,
-                'uid': urlsafe_base64_encode(force_bytes(user.pk)),
-                # method will generate a hash value with user related data
-                'token': account_activation_token.make_token(user),
-            })
+            # html_message = render_to_string('accounts/activation_request_html.html', {
+            #     'user': user,
+            #     'domain': current_site.domain,
+            #     'uid': urlsafe_base64_encode(force_bytes(user.pk)),
+            #     # method will generate a hash value with user related data
+            #     'token': account_activation_token.make_token(user),
+            # })
             send_mail(
                 subject,
                 message,
                 'latytube@gmail.com',
                 [user.email,],
-                html_message,
                 )
             return HttpResponseRedirect('/sent')
     else:
