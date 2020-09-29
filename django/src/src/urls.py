@@ -21,6 +21,8 @@ from django.contrib.staticfiles.urls import staticfiles_urlpatterns
 from django.contrib.auth.views import LoginView, LogoutView, PasswordResetView, PasswordResetDoneView
 from django.contrib.auth.views import PasswordResetConfirmView, PasswordResetCompleteView
 
+from accounts.views import activation_sent_view, activate
+
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include('home.urls')),
@@ -28,4 +30,8 @@ urlpatterns = [
     path('f/', include('functions.urls')),
     path('api/', include('api.urls')),
     path('friendship/', include('friendship.urls')),
+    path('sent/', activation_sent_view, name="activation_sent"),
+    path('activate/<slug:uidb64>/<slug:token>/', activate, name='activate'),
+
+
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

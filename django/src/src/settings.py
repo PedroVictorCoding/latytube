@@ -25,7 +25,7 @@ SECRET_KEY = '%n=phqu-31(10)dj=+jm%9=u!xc!be*31od0y@4!42-+2par0('
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ["www.notatish.com", "pedromusk.pythonanywhere.com"]
+ALLOWED_HOSTS = ["www.notatish.com", "pedromusk.pythonanywhere.com", "127.0.0.1"]
 
 
 # Application definition
@@ -161,11 +161,12 @@ STATICFILES_DIRS = [
 # Email on Signup
 # https://simpleisbetterthancomplex.com/tutorial/2017/02/18/how-to-create-user-sign-up-view.html#sign-up-with-confirmation-mail
 
-EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
-EMAIL_HOST_PASSWORD = '[Password]'
-EMAIL_HOST_USER = '[Email]'
+#EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 EMAIL_USE_TLS = True
-EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_PORT = 587
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_HOST_USER = 'latytube@gmail.com'
+EMAIL_HOST_PASSWORD = 'Emc231415'
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 
 

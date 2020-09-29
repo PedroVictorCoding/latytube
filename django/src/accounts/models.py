@@ -36,14 +36,15 @@ class MyAccountManager(BaseUserManager):
 
 
 class Account(AbstractBaseUser):
-    username        = models.CharField(max_length=30, unique=True)
-    email           = models.EmailField(max_length=50, verbose_name="email", unique=True)
-    date_joined     = models.DateTimeField(verbose_name='date joined', auto_now_add=True)
-    last_login      = models.DateTimeField(verbose_name='last login', auto_now=True)
-    is_admin        = models.BooleanField(default=False)
-    is_active       = models.BooleanField(default=True)
-    is_staff        = models.BooleanField(default=False)
-    is_superuser    = models.BooleanField(default=False)
+    username            = models.CharField(max_length=30, unique=True)
+    email               = models.EmailField(max_length=50, verbose_name="email", unique=True)
+    date_joined         = models.DateTimeField(verbose_name='date joined', auto_now_add=True)
+    last_login          = models.DateTimeField(verbose_name='last login', auto_now=True)
+    is_admin            = models.BooleanField(default=False)
+    is_active           = models.BooleanField(default=True)
+    is_staff            = models.BooleanField(default=False)
+    is_superuser        = models.BooleanField(default=False)
+    signup_confirmation = models.BooleanField(default=False)
 
     objects = MyAccountManager()
 
@@ -62,6 +63,13 @@ class Account(AbstractBaseUser):
     def is_staff(self):
         return self.is_admin
 
+
+@receiver(post_save, sender=User)
+def update_profile_signal(sender, instance, created, **kwargs):
+    if created:
+        Profile.objects.create(user=instance)
+    instance.profile.save()
+    
 
 def generated_filename(instance, filename):
     extension = filename.split('.')[-1]
