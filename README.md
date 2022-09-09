@@ -1,7 +1,7 @@
 # latytube
 
 ## Appearence
-![Latytube Screenshot]([http://url/to/img.png](https://i.imgur.com/Ltm3Pwl.png))
+![Latytube Screenshot](https://i.imgur.com/Ltm3Pwl.png)
 
 ## Philosophy
 
